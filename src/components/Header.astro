@@ -88,7 +88,7 @@ const navLinks = [
             aria-expanded="false"
             aria-haspopup="true"
           >
-            <span>{localeFlags[locale]}</span>
+            <span class="flex items-center justify-center shrink-0" set:html={localeFlags[locale]} />
             <span class="hidden sm:inline">{locale.toUpperCase()}</span>
             <svg class="w-3.5 h-3.5 transition-transform duration-200" id="lang-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -112,7 +112,7 @@ const navLinks = [
                 role="menuitem"
                 data-lang={lang}
               >
-                <span>{localeFlags[lang]}</span>
+                <span class="flex items-center justify-center shrink-0" set:html={localeFlags[lang]} />
                 <span>{localeNames[lang]}</span>
                 {lang === locale && (
                   <svg class="w-4 h-4 ml-auto" fill="currentColor" viewBox="0 0 20 20">

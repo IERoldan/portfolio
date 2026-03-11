@@ -88,7 +88,7 @@ export const localeNames: Record<Locale, string> = {
 };
 
 export const localeFlags: Record<Locale, string> = {
-    es: '🇪🇸',
-    en: '🇺🇸',
-    pt: '🇧🇷',
+    es: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-[18px] h-[18px]"><mask id="es-mask"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#es-mask)"><path fill="#ffce00" d="M0 111.3h512V400H0z"/><path fill="#d52b1e" d="M0 0h512v111.3H0zM0 400h512v112H0z"/></g></svg>',
+    en: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-[18px] h-[18px]"><mask id="us-mask"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#us-mask)"><path fill="#eee" d="M256 0h256v64H256zM256 128h256v64H256zM256 256h256v64H256zM256 384h256v64H256z"/><path fill="#d80027" d="M256 64h256v64H256zM256 192h256v64H256zM256 320h256v64H256zM256 448h256v64H256z"/><path fill="#eee" d="M0 256h256v64H0zM0 384h256v64H0z"/><path fill="#d80027" d="M0 320h256v64H0zM0 448h256v64H0z"/><path fill="#0052b4" d="M0 0h256v256H0z"/><g fill="#eee"><circle cx="42.7" cy="42.7" r="14.2"/><circle cx="128" cy="42.7" r="14.2"/><circle cx="213.3" cy="42.7" r="14.2"/><circle cx="85.3" cy="85.3" r="14.2"/><circle cx="170.7" cy="85.3" r="14.2"/><circle cx="42.7" cy="128" r="14.2"/><circle cx="128" cy="128" r="14.2"/><circle cx="213.3" cy="128" r="14.2"/><circle cx="85.3" cy="170.7" r="14.2"/><circle cx="170.7" cy="170.7" r="14.2"/><circle cx="42.7" cy="213.3" r="14.2"/><circle cx="128" cy="213.3" r="14.2"/><circle cx="213.3" cy="213.3" r="14.2"/></g></g></svg>',
+    pt: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-[18px] h-[18px]"><mask id="br-mask"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#br-mask)"><path fill="#6da544" d="M0 0h512v512H0z"/><path fill="#ffda44" d="M256 42.7L42.7 256 256 469.3 469.3 256z"/><circle cx="256" cy="256" r="139.6" fill="#0052b4"/><path fill="#eee" d="M123.6 295.4c17.6-67 114-106.7 186.2-76 19.3 8.3 36.4 20.3 50.7 35-18.3-64.8-112-101.4-182.2-72.2C150.8 194.5 129.5 240.6 123.6 295.4z"/></g></svg>',
 };
