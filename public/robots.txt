@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap multiidioma
+Sitemap: https://tudominio.com/sitemap-index.xml

@@ -1,0 +1,43 @@
+---
+/**
+ * Root redirect — Detecta locale y redirige
+ *
+ * En SSG, genera un archivo HTML con meta refresh + JS redirect.
+ * Prioridad: localStorage → navigator.language → default (es)
+ */
+export const prerender = true;
+---
+
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Fallback redirect a /es/ si JS está deshabilitado -->
+    <meta http-equiv="refresh" content="0;url=/es/" />
+    <title>Redirecting...</title>
+  </head>
+  <body>
+    <script is:inline>
+      (function() {
+        var locales = ['es', 'en', 'pt'];
+        var defaultLocale = 'es';
+
+        // 1. localStorage
+        var stored = localStorage.getItem('preferred-locale');
+        if (stored && locales.indexOf(stored) !== -1) {
+          window.location.replace('/' + stored + '/');
+          return;
+        }
+
+        // 2. navigator.language
+        var browserLang = (navigator.language || '').split('-')[0];
+        if (browserLang && locales.indexOf(browserLang) !== -1) {
+          window.location.replace('/' + browserLang + '/');
+          return;
+        }
+
+        // 3. default
+        window.location.replace('/' + defaultLocale + '/');
+      })();
+    </script>
+  </body>
+</html>

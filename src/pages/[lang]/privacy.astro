@@ -1,0 +1,65 @@
+---
+/**
+ * Privacy Policy Page — /{lang}/privacy/
+ *
+ * Genera rutas estáticas para /es/privacy/, /en/privacy/, /pt/privacy/
+ */
+export const prerender = true;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { locales, t, type Locale } from '../../i18n/index';
+
+export function getStaticPaths() {
+  return locales.map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params;
+const locale = lang as Locale;
+const currentPath = `/${locale}/privacy/`;
+---
+
+<BaseLayout locale={locale} pageKey="privacy" currentPath={currentPath}>
+  <main class="pt-32 pb-20">
+    <div class="container-custom max-w-3xl">
+      <header class="mb-12 reveal">
+        <h1 class="text-4xl md:text-5xl font-bold text-(--color-text-primary) mb-4">
+          {t(locale, 'privacy.title')}
+        </h1>
+        <p class="text-sm text-(--color-text-tertiary)">
+          {t(locale, 'privacy.lastUpdated')}
+        </p>
+      </header>
+      
+      <div class="prose prose-invert prose-slate max-w-none reveal reveal-delay-1">
+        <div class="p-8 rounded-2xl bg-(--color-surface) border border-(--color-border) shadow-sm space-y-8">
+          <p class="text-(--color-text-secondary) leading-relaxed text-lg italic border-l-4 border-(--color-accent-500) pl-4">
+            {t(locale, "privacy.intro")}
+          </p>
+
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => {
+            const title = t(locale, `privacy.section${i}.title`);
+            const content = t(locale, `privacy.section${i}.content`);
+            if (!title) return null;
+            return (
+              <section id={`section-${i}`}>
+                <h2 class="text-xl font-bold text-(--color-text-primary) mb-3">
+                  {title}
+                </h2>
+                <div class="text-(--color-text-secondary) leading-relaxed whitespace-pre-line">
+                  {content}
+                </div>
+              </section>
+            );
+          })}
+        </div>
+      </div>
+      
+      <div class="mt-12 reveal reveal-delay-2">
+        <a href={`/${locale}/`} class="inline-flex items-center gap-2 text-(--color-accent-500) hover:text-(--color-accent-400) font-medium group transition-colors">
+          <span class="group-hover:-translate-x-1 transition-transform">←</span> {t(locale, 'nav.home')}
+        </a>
+      </div>
+    </div>
+  </main>
+</BaseLayout>

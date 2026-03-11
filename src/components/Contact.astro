@@ -1,0 +1,318 @@
+---
+/**
+ * Contact Section
+ *
+ * - 2 columnas: formulario izquierda + info/calendar derecha
+ * - Form fields con labels
+ * - Placeholder para Calendly
+ * - Info de contacto
+ */
+import { t, type Locale } from '../i18n/index';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<section id="contact" class="py-20 md:py-28">
+  <div class="container-custom">
+    <!-- Section header -->
+    <div class="text-center mb-14 md:mb-20">
+      <span class="reveal inline-block px-3 py-1 text-xs font-semibold text-(--color-accent-500) bg-(--color-accent-500)/10 rounded-full uppercase tracking-wider mb-4">
+        {t(locale, 'contact.label')}
+      </span>
+      <h2 class="reveal reveal-delay-1 text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
+        {t(locale, 'contact.title')}
+      </h2>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-10 md:gap-16 max-w-5xl mx-auto">
+
+      <!-- Contact Form -->
+      <div class="reveal">
+        <form class="space-y-5" id="contact-form">
+          <!-- Name -->
+          <div>
+            <label for="contact-name" class="block text-sm font-medium text-(--color-text-primary) mb-2">
+              {t(locale, 'contact.form.name')}
+            </label>
+            <input
+              type="text"
+              id="contact-name"
+              name="name"
+              placeholder={t(locale, 'contact.form.namePlaceholder')}
+              required
+              class="w-full px-4 py-3 bg-(--color-surface) border border-(--color-border) rounded-xl text-(--color-text-primary) placeholder:text-(--color-text-tertiary) focus:outline-none focus:ring-2 focus:ring-(--color-accent-500)/50 focus:border-(--color-accent-500) transition-all duration-200"
+            />
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label for="contact-email" class="block text-sm font-medium text-(--color-text-primary) mb-2">
+              {t(locale, 'contact.form.email')}
+            </label>
+            <input
+              type="email"
+              id="contact-email"
+              name="email"
+              placeholder={t(locale, 'contact.form.emailPlaceholder')}
+              required
+              class="w-full px-4 py-3 bg-(--color-surface) border border-(--color-border) rounded-xl text-(--color-text-primary) placeholder:text-(--color-text-tertiary) focus:outline-none focus:ring-2 focus:ring-(--color-accent-500)/50 focus:border-(--color-accent-500) transition-all duration-200"
+            />
+          </div>
+
+          <!-- Subject -->
+          <div>
+            <label for="contact-subject" class="block text-sm font-medium text-(--color-text-primary) mb-2">
+              {t(locale, 'contact.form.subject')}
+            </label>
+            <input
+              type="text"
+              id="contact-subject"
+              name="subject"
+              placeholder={t(locale, 'contact.form.subjectPlaceholder')}
+              class="w-full px-4 py-3 bg-(--color-surface) border border-(--color-border) rounded-xl text-(--color-text-primary) placeholder:text-(--color-text-tertiary) focus:outline-none focus:ring-2 focus:ring-(--color-accent-500)/50 focus:border-(--color-accent-500) transition-all duration-200"
+            />
+          </div>
+
+          <!-- Message -->
+          <div>
+            <label for="contact-message" class="block text-sm font-medium text-(--color-text-primary) mb-2">
+              {t(locale, 'contact.form.message')}
+            </label>
+            <textarea
+              id="contact-message"
+              name="message"
+              rows="5"
+              placeholder={t(locale, 'contact.form.messagePlaceholder')}
+              required
+              class="w-full px-4 py-3 bg-(--color-surface) border border-(--color-border) rounded-xl text-(--color-text-primary) placeholder:text-(--color-text-tertiary) focus:outline-none focus:ring-2 focus:ring-(--color-accent-500)/50 focus:border-(--color-accent-500) transition-all duration-200 resize-none"
+            ></textarea>
+          </div>
+
+          <!-- Honeypot field for spam protection -->
+          <div class="hidden" aria-hidden="true" style="display:none">
+            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <!-- Submit -->
+          <button
+            type="submit"
+            data-event="contact_form_submit"
+            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-semibold text-white bg-(--color-accent-500) hover:bg-(--color-accent-600) rounded-xl transition-all duration-200 shadow-lg shadow-(--color-accent-500)/25 hover:shadow-xl hover:shadow-(--color-accent-500)/30 hover:-translate-y-0.5 cursor-pointer"
+          >
+            {t(locale, 'contact.form.submit')}
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+            </svg>
+          </button>
+        </form>
+      </div>
+
+      <!-- Right side: Calendar + Contact Info -->
+      <div class="reveal reveal-delay-2 space-y-8">
+        <!-- Calendly embed placeholder -->
+        <div class="p-6 bg-(--color-bg-alt) border border-(--color-border) rounded-2xl">
+          <h3 class="text-lg font-bold text-(--color-text-primary) mb-2">
+            {t(locale, 'contact.calendar.title')}
+          </h3>
+          <p class="text-sm text-(--color-text-secondary) mb-6">
+            {t(locale, 'contact.calendar.description')}
+          </p>
+
+          <!-- Cal.com Popup Card -->
+          <div class="p-6 bg-(--color-surface) border border-(--color-border) rounded-xl">
+            <div class="flex items-center gap-4 mb-4">
+              <div class="w-12 h-12 flex items-center justify-center bg-(--color-accent-500)/10 text-(--color-accent-500) rounded-full">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                </svg>
+              </div>
+              <div>
+                <h4 class="text-lg font-bold text-(--color-text-primary)">Agendar una llamada</h4>
+                <p class="text-xs text-(--color-text-tertiary)">Sincronizado con Google Calendar</p>
+              </div>
+            </div>
+            
+            <p class="text-sm text-(--color-text-secondary) mb-6">
+              Selecciona el día y la hora que mejor te convenga para charlar sobre tu proyecto. Recibirás un correo de confirmación una vez aprobada la solicitud.
+            </p>
+
+            <button 
+              data-cal-namespace=""
+              data-cal-link="ivan-roldan-drvxar/30min"
+              data-cal-config='{"layout":"month_view","theme":"dark"}'
+              data-event="schedule_call"
+              class="w-full inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-(--color-text-primary) bg-(--color-bg-alt) border border-(--color-border) hover:border-(--color-accent-500) hover:text-(--color-accent-500) rounded-xl transition-all duration-200 cursor-pointer"
+            >
+              Ver horarios disponibles
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+
+            <!-- Cal element-click init -->
+            <script is:inline type="text/javascript">
+              (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+              Cal("init",  {origin:"https://cal.com"});
+              
+              Cal("ui", {
+                "styles": {"branding":{"brandColor":"#3c83f6"}},
+                "hideEventTypeDetails": false,
+                "hideBranding": true,
+                "layout": "month_view",
+                "theme": "dark"
+              });
+            </script>
+          </div>
+        </div>
+
+        <!-- Contact info -->
+        <div class="space-y-4">
+          <!-- Email -->
+          <div class="flex items-center gap-4 p-4 bg-(--color-bg-alt) border border-(--color-border) rounded-xl">
+            <div class="w-10 h-10 flex items-center justify-center bg-(--color-accent-500)/10 text-(--color-accent-500) rounded-lg shrink-0">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+              </svg>
+            </div>
+            <div>
+              <p class="text-xs text-(--color-text-tertiary)">{t(locale, 'contact.info.email')}</p>
+              <p class="text-sm font-medium text-(--color-text-primary)">iroldan.work@gmail.com</p>
+            </div>
+          </div>
+
+          <!-- Location -->
+          <div class="flex items-center gap-4 p-4 bg-(--color-bg-alt) border border-(--color-border) rounded-xl">
+            <div class="w-10 h-10 flex items-center justify-center bg-(--color-accent-500)/10 text-(--color-accent-500) rounded-lg shrink-0">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+              </svg>
+            </div>
+            <div>
+              <p class="text-xs text-(--color-text-tertiary)">{t(locale, 'contact.info.location')}</p>
+              <p class="text-sm font-medium text-(--color-text-primary)">{t(locale, 'contact.info.locationValue')}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
+</section>
+
+<script>
+  const contactForm = document.getElementById('contact-form') as HTMLFormElement;
+  const toastContainer = document.getElementById('toast-container');
+
+  function showToast(message: string, type: 'success' | 'error') {
+    if (!toastContainer) return;
+
+    const toast = document.createElement('div');
+    const isSuccess = type === 'success';
+    
+    // SVG Icons
+    const successIcon = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+    const errorIcon = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+    
+    // Style configurations
+    const baseClasses = 'flex items-center gap-3 px-4 py-3 rounded-xl border shadow-lg transition-all duration-300 translate-y-8 opacity-0 pointer-events-auto backdrop-blur-md';
+    const typeClasses = isSuccess 
+      ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500' 
+      : 'bg-red-500/10 border-red-500/20 text-red-500';
+      
+    toast.className = `${baseClasses} ${typeClasses}`;
+    toast.innerHTML = `
+      <div class="shrink-0">${isSuccess ? successIcon : errorIcon}</div>
+      <p class="text-sm font-medium text-(--color-text-primary)">${message}</p>
+      <button class="shrink-0 text-(--color-text-tertiary) hover:text-(--color-text-primary) transition-colors transition-transform hover:scale-110" onclick="this.parentElement.remove()">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+    `;
+
+    toastContainer.appendChild(toast);
+
+    // Trigger entrance animation
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-8', 'opacity-0');
+      });
+    });
+
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+      toast.classList.add('translate-y-8', 'opacity-0');
+      setTimeout(() => toast.remove(), 300);
+    }, 5000);
+  }
+  
+  if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const submitBtn = contactForm.querySelector('button[type="submit"]') as HTMLButtonElement;
+      const originalBtnText = submitBtn.innerHTML;
+      
+      // Get form data
+      const formData = new FormData(contactForm);
+      const data = Object.fromEntries(formData.entries());
+      
+      // Update form state (animations and blockers)
+      contactForm.classList.add('opacity-50', 'pointer-events-none', 'transition-opacity', 'duration-300');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `
+        <span class="inline-flex items-center gap-2">
+          <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          Enviando...
+        </span>
+      `;
+
+      try {
+        const GOOGLE_SHEET_URL = import.meta.env.PUBLIC_GOOGLE_SHEET_URL;
+        
+        // Honeypot check 
+        if (formData.get('_gotcha')) {
+          console.warn('Spam detected via honeypot.');
+          showToast('¡Mensaje enviado con éxito!', 'success'); // Fake success
+          contactForm.reset();
+          return;
+        }
+
+        if (!GOOGLE_SHEET_URL) {
+          console.warn('Google Sheets URL not configured.');
+          showToast('Por favor, configura la URL de Google Sheets en el código.', 'error');
+          return;
+        }
+
+        const response = await fetch(GOOGLE_SHEET_URL, {
+          method: 'POST',
+          mode: 'no-cors', // Important for Google Apps Script
+          cache: 'no-cache',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+
+        // Since we use no-cors, we can't really read the status, 
+        // but if it doesn't throw, it likely worked.
+        showToast('¡Mensaje enviado con éxito!', 'success');
+        contactForm.reset();
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        showToast('Hubo un error al enviar el mensaje. Por favor, intenta de nuevo.', 'error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnText;
+        contactForm.classList.remove('opacity-50', 'pointer-events-none');
+      }
+    });
+  }
+</script>
