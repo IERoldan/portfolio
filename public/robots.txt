@@ -2,5 +2,5 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-# Sitemap multiidioma
-Sitemap: https://rolivstudio.com/sitemap-index.xml
+# Sitemap
+Sitemap: https://rolivstudio.com/sitemap.xml
