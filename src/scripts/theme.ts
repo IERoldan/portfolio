@@ -4,7 +4,7 @@
  * Prioridad de detección:
  * 1. localStorage ('theme')
  * 2. prefers-color-scheme del sistema
- * 3. Default: dark (matching Stitch design)
+ * 3. Default: light
  *
  * Persiste la preferencia en localStorage.
  * Aplica/quita la clase .dark en <html>.
@@ -14,8 +14,8 @@ function initTheme(): void {
     const stored = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-    // Default a dark si no hay preferencia guardada
-    const isDark = stored ? stored === 'dark' : prefersDark || true;
+    // Default: light. Solo dark si el usuario lo eligió o su OS lo prefiere
+    const isDark = stored ? stored === 'dark' : prefersDark;
 
     document.documentElement.classList.toggle('dark', isDark);
     updateToggleIcons(isDark);

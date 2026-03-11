@@ -169,6 +169,14 @@ body {
   transition-delay: 0.4s;
 }
 
+.reveal-delay-5 {
+  transition-delay: 0.5s;
+}
+
+.reveal-delay-6 {
+  transition-delay: 0.6s;
+}
+
 /* ─── Typewriter cursor ──────────────────────────────────────────── */
 .typewriter-cursor {
   display: inline-block;

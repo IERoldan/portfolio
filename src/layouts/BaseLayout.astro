@@ -39,7 +39,7 @@ const ogLocaleMap: Record<Locale, string> = {
 ---
 
 <!doctype html>
-<html lang={locale} class="dark">
+<html lang={locale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -73,7 +73,7 @@ const ogLocaleMap: Record<Locale, string> = {
       const href = new URL('/' + segments.join('/') + '/', Astro.site);
       return <link rel="alternate" hreflang={lang} href={href.href} />;
     })}
-    <link rel="alternate" hreflang="x-default" href={new URL('/es/', Astro.site).href} />
+    <link rel="alternate" hreflang="x-default" href={new URL('/en/', Astro.site).href} />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -123,8 +123,10 @@ const ogLocaleMap: Record<Locale, string> = {
     <script is:inline>
       (function() {
         const stored = localStorage.getItem('theme');
+        // Default: light. Solo aplica dark si el usuario lo guardó explícitamente
+        // o si su sistema operativo prefiere dark y nunca eligió manualmente.
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const isDark = stored ? stored === 'dark' : (prefersDark || true);
+        const isDark = stored ? stored === 'dark' : prefersDark;
         if (isDark) {
           document.documentElement.classList.add('dark');
         } else {
