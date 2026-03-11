@@ -8,8 +8,7 @@ import node from '@astrojs/node';
 const locales = ['es', 'en', 'pt'];
 
 export default defineConfig({
-  // IMPORTANTE: Cambiar a tu dominio real antes de deploy
-  site: 'https://tudominio.com',
+  site: 'https://rolivstudio.com',
 
   // Server mode: todas las páginas usan prerender por defecto (estáticas),
   // excepto endpoints marcados con prerender = false (chatbot API)

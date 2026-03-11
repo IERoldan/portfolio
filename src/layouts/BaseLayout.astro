@@ -47,7 +47,9 @@ const ogLocaleMap: Record<Locale, string> = {
     <!-- SEO Core -->
     <title>{seoTitle}</title>
     <meta name="description" content={seoDescription} />
-    <meta name="keywords" content="portfolio, desarrollo web, fullstack, software engineer, programación, ivan" />
+    <meta name="keywords" content="Roliv Studio, Ivan Roldan, frontend developer, Webflow, React, Node.js, SEO, automatización IA, portfolio" />
+    <meta name="author" content="Ivan Elias Roldan" />
+    <meta name="robots" content="index, follow" />
 
     <link rel="canonical" href={canonicalURL.href} />
 
@@ -84,21 +86,37 @@ const ogLocaleMap: Record<Locale, string> = {
       <meta property="og:locale:alternate" content={ogLocaleMap[l]} />
     ))}
 
+    <!-- Open Graph Image -->
+    <meta property="og:image" content="https://rolivstudio.com/img/ivan_img.webp" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Roliv Studio — Ivan Elias Roldan" />
+
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={seoTitle} />
     <meta name="twitter:description" content={seoDescription} />
+    <meta name="twitter:image" content="https://rolivstudio.com/img/ivan_img.webp" />
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "Person",
       "name": t(locale, 'hero.name'),
-      "jobTitle": t(locale, 'hero.title'),
+      "jobTitle": "Frontend Developer & Webflow Specialist",
       "description": seoDescription,
-      "url": Astro.site?.href,
-      "sameAs": [],
+      "url": "https://rolivstudio.com",
+      "image": "https://rolivstudio.com/img/ivan_img.webp",
+      "sameAs": [
+        "https://github.com/IERoldan",
+        "https://www.linkedin.com/in/ivan-elias-roldan-130b72174/"
+      ],
       "knowsLanguage": ["es", "en", "pt"],
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Roliv Studio",
+        "url": "https://rolivstudio.com"
+      }
     })} />
 
     <!-- Theme: aplicar antes del render para evitar FOUC -->
