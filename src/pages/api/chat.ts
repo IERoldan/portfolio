@@ -249,6 +249,8 @@ Si capturaste nombre y email en la conversación, incluilos al final del mensaje
 
 // ─── Allowed Origins ────────────────────────────────────────────
 const ALLOWED_ORIGINS = new Set([
+    'https://rolivstudio.com',
+    'https://www.rolivstudio.com',
     'https://ivanr.dev',
     'https://www.ivanr.dev',
     'http://localhost:4321',
