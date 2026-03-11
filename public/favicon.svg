@@ -1,4 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="6" fill="#3c83f6"/>
-  <text x="16" y="22" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-weight="800" font-size="18" fill="white" text-anchor="middle">R</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40">
+    <style>
+        text { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            font-weight: 800; 
+            font-size: 28px; 
+            letter-spacing: -0.5px; 
+        }
+        .accent { fill: #3c83f6; }
+        .primary { fill: #0f172a; }
+        @media (prefers-color-scheme: dark) {
+            .primary { fill: #e2e8f0; }
+        }
+    </style>
+    <text x="5" y="30">
+        <tspan class="accent">&lt;</tspan><tspan class="primary">Iván</tspan><tspan class="accent">Roldán/&gt;</tspan>
+    </text>
 </svg>
