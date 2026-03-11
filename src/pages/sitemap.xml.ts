@@ -19,20 +19,20 @@ const STATIC_PAGES = [
   { path: 'terms/',  priority: '0.3', changefreq: 'yearly'  },
 ];
 
-function buildUrl(locPath: string, priority: string, changefreq: string, lastmod: string): string {
+function buildUrlEntries(locPath: string, priority: string, changefreq: string, lastmod: string): string {
   const alternates = LOCALES.map(lang =>
     `        <xhtml:link rel="alternate" hreflang="${lang}" href="${SITE}/${lang}/${locPath}"/>`
   ).join('\n');
   const xDefault = `        <xhtml:link rel="alternate" hreflang="x-default" href="${SITE}/en/${locPath}"/>`;
 
-  return `    <url>
-        <loc>${SITE}/es/${locPath}</loc>
+  return LOCALES.map(lang => `    <url>
+        <loc>${SITE}/${lang}/${locPath}</loc>
 ${alternates}
 ${xDefault}
         <lastmod>${lastmod}</lastmod>
         <changefreq>${changefreq}</changefreq>
         <priority>${priority}</priority>
-    </url>`;
+    </url>`).join('\n');
 }
 
 export const GET: APIRoute = async () => {
@@ -43,11 +43,11 @@ export const GET: APIRoute = async () => {
   const urls: string[] = [];
 
   for (const page of STATIC_PAGES) {
-    urls.push(buildUrl(page.path, page.priority, page.changefreq, lastmod));
+    urls.push(buildUrlEntries(page.path, page.priority, page.changefreq, lastmod));
   }
 
   for (const slug of blogSlugs) {
-    urls.push(buildUrl(`blog/${slug}/`, '0.7', 'monthly', lastmod));
+    urls.push(buildUrlEntries(`blog/${slug}/`, '0.7', 'monthly', lastmod));
   }
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
