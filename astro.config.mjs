@@ -1,17 +1,13 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
-import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel';
-
-// Locales soportados para generación de sitemap multiidioma
-const locales = ['es', 'en', 'pt'];
 
 export default defineConfig({
   site: 'https://rolivstudio.com',
 
-  // Server mode: todas las páginas usan prerender por defecto (estáticas),
-  // excepto endpoints marcados con prerender = false (chatbot API)
+  // Server mode: páginas prerender por defecto (estáticas),
+  // excepto endpoints con prerender = false (chatbot API, root redirect)
   output: 'server',
   adapter: vercel(),
 
@@ -20,7 +16,7 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
 
-  // Security headers applied to all server responses
+  // Security headers
   server: {
     headers: {
       'X-Content-Type-Options': 'nosniff',
@@ -31,26 +27,15 @@ export default defineConfig({
     },
   },
 
-  // Integración sitemap con soporte multiidioma
-  integrations: [
-    sitemap({
-      i18n: {
-        defaultLocale: 'es',
-        locales: {
-          es: 'es-ES',
-          en: 'en-US',
-          pt: 'pt-BR',
-        },
-      },
-    }),
-  ],
+  // Sitemap se genera desde src/pages/sitemap.xml.ts (custom endpoint)
+  integrations: [],
 
-  // Configuración de i18n nativa de Astro
+  // i18n nativa de Astro
   i18n: {
     defaultLocale: 'es',
     locales: ['es', 'en', 'pt'],
     routing: {
-      prefixDefaultLocale: true, // /es/ en lugar de /
+      prefixDefaultLocale: true,
     },
   },
 });
