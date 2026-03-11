@@ -2,7 +2,7 @@
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
-import node from '@astrojs/node';
+import vercel from '@astrojs/vercel';
 
 // Locales soportados para generación de sitemap multiidioma
 const locales = ['es', 'en', 'pt'];
@@ -13,7 +13,7 @@ export default defineConfig({
   // Server mode: todas las páginas usan prerender por defecto (estáticas),
   // excepto endpoints marcados con prerender = false (chatbot API)
   output: 'server',
-  adapter: node({ mode: 'standalone' }),
+  adapter: vercel(),
 
   // Tailwind CSS v4 via Vite plugin
   vite: {
