@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import vercel from '@astrojs/vercel';
+import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://rolivstudio.com',
@@ -27,8 +28,8 @@ export default defineConfig({
     },
   },
 
-  // Sitemap configuration: handled via static file in public/sitemap.xml
-  integrations: [],
+  // Sitemap configuration
+  integrations: [sitemap()],
 
   // i18n nativa de Astro
   i18n: {

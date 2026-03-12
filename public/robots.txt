@@ -3,4 +3,4 @@ Allow: /
 Disallow: /api/
 
 # Sitemap
-Sitemap: https://rolivstudio.com/sitemap.xml
+Sitemap: https://rolivstudio.com/sitemap-index.xml
