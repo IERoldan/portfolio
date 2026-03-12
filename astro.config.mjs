@@ -27,7 +27,7 @@ export default defineConfig({
     },
   },
 
-  // Sitemap se genera desde src/pages/sitemap.xml.ts (custom endpoint)
+  // Sitemap configuration: handled via static file in public/sitemap.xml
   integrations: [],
 
   // i18n nativa de Astro
