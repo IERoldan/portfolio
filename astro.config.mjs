@@ -29,7 +29,18 @@ export default defineConfig({
   },
 
   // Sitemap configuration
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      i18n: {
+        defaultLocale: 'es',
+        locales: {
+          es: 'es',
+          en: 'en',
+          pt: 'pt',
+        },
+      },
+    }),
+  ],
 
   // i18n nativa de Astro
   i18n: {
