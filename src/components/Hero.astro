@@ -66,11 +66,15 @@ const { locale } = Astro.props;
             </svg>
           </a>
           <a
-            href={`/${locale}/#contact`}
-            data-event="hero_cta_secondary"
-            class="flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-(--color-text-primary) bg-(--color-surface) hover:bg-(--color-surface-hover) border border-(--color-border) rounded-xl transition-all duration-200 hover:-translate-y-0.5"
+            href="/resumes/Ivan_Roldan_resume.pdf"
+            download
+            data-event="hero_cta_cv"
+            class="flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-(--color-accent-500) bg-(--color-accent-500)/5 hover:bg-(--color-accent-500)/10 border border-(--color-accent-500)/20 rounded-xl transition-all duration-200 hover:-translate-y-0.5"
           >
-            {t(locale, 'hero.cta.contact')}
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            {t(locale, 'common.downloadCV')}
           </a>
         </div>
       </div>
@@ -89,7 +93,7 @@ const { locale } = Astro.props;
           <div class="absolute inset-0 z-10 flex items-end justify-center">
              <img 
               src="/img/ivan_img.webp" 
-              alt="Ivan" 
+              alt="Iván Roldán - Frontend Developer Portfolio" 
               class="block w-[75%] max-h-full h-auto object-contain object-bottom drop-shadow-[0_20px_20px_rgba(0,0,0,0.5)]"
              >
           </div>

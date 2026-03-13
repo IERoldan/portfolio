@@ -26,7 +26,7 @@ const navLinks = [
 
 <header
   id="main-header"
-  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+  class="fixed top-0 left-0 right-0 z-50 transition-[transform,background-color,backdrop-filter,box-shadow,border-color] duration-300 ease-in-out"
 >
   <div class="container-custom">
     <nav class="flex items-center justify-between h-16 md:h-20" aria-label="Main navigation">
@@ -35,9 +35,9 @@ const navLinks = [
       <a
         href={`/${locale}/`}
         class="flex items-center group hover:opacity-90 transition-opacity -ml-3"
-        aria-label="Home"
+        aria-label={t(locale, 'common.home')}
       >
-        <img src="/img/logo_portfolio.svg" alt="" class="w-[70px] h-[70px]" aria-hidden="true" />
+        <img src="/img/logo_portfolio.svg" alt="Roliv Studio Logo" class="w-[70px] h-[70px]" aria-hidden="true" />
         <span class="text-xl font-bold tracking-tight text-(--color-text-primary) -ml-3">
           Iván<span class="text-(--color-accent-500)">Roldán</span>
         </span>
@@ -173,7 +173,7 @@ const navLinks = [
 <div
     id="mobile-menu"
     class="lg:hidden fixed inset-x-0 bottom-0 bg-(--color-bg) border-t border-(--color-border) translate-x-full transition-transform duration-300 ease-out z-[60] overflow-y-auto"
-    style="top: 64px;"
+    style="top: 64px; background-color: var(--color-bg);"
   >
     <nav class="container-custom py-8" aria-label="Mobile navigation">
       <ul class="space-y-1">
@@ -231,12 +231,10 @@ const navLinks = [
       const delta = scrollY - lastScrollY;
 
       // Glassmorphism
-      if (scrollY > 50) {
+      if (scrollY > 10) {
         header.classList.add('glass');
-        header.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
       } else {
         header.classList.remove('glass');
-        header.style.boxShadow = 'none';
       }
 
       // Auto-hide: hide on scroll down, show on scroll up

@@ -123,7 +123,7 @@ const SYSTEM_PROMPT = `Eres el asistente virtual de ventas del portfolio de Ivan
 **Rol**: Frontend Developer | Especialista Webflow & React | AI Automation Architect
 **Ubicación**: Brasil (trabajo remoto global)
 **Idiomas**: Español (nativo), Portugués (fluido), Inglés (intermedio)
-**Contacto**: ivanr.dev | iroldan.work@gmail.com
+**Contacto**: ivanr.dev | ivan.roldan@rolivstudio.com
 
 ## EXPERIENCIA LABORAL
 

@@ -36,7 +36,7 @@
 						color: #64748b;
 						margin-bottom: 32px;
 						line-height: 1.6;
-					}
+						}
 					table {
 						width: 100%;
 						border-collapse: collapse;
@@ -160,4 +160,6 @@
 			</body>
 		</html>
 	</xsl:template>
+</xsl:stylesheet>
+
 </xsl:stylesheet>

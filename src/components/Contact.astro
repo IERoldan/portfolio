@@ -131,13 +131,13 @@ const { locale } = Astro.props;
                 </svg>
               </div>
               <div>
-                <h4 class="text-lg font-bold text-(--color-text-primary)">Agendar una llamada</h4>
-                <p class="text-xs text-(--color-text-tertiary)">Sincronizado con Google Calendar</p>
+                <h4 class="text-lg font-bold text-(--color-text-primary)">{t(locale, 'contact.calendar.meeting')}</h4>
+                <p class="text-xs text-(--color-text-tertiary)">{t(locale, 'contact.calendar.sync')}</p>
               </div>
             </div>
             
             <p class="text-sm text-(--color-text-secondary) mb-6">
-              Selecciona el día y la hora que mejor te convenga para charlar sobre tu proyecto. Recibirás un correo de confirmación una vez aprobada la solicitud.
+              {t(locale, 'contact.calendar.instruction')}
             </p>
 
             <button 
@@ -147,7 +147,7 @@ const { locale } = Astro.props;
               data-event="schedule_call"
               class="w-full inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-(--color-text-primary) bg-(--color-bg-alt) border border-(--color-border) hover:border-(--color-accent-500) hover:text-(--color-accent-500) rounded-xl transition-all duration-200 cursor-pointer"
             >
-              Ver horarios disponibles
+              {t(locale, 'contact.calendar.viewHours')}
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
               </svg>
@@ -180,7 +180,7 @@ const { locale } = Astro.props;
             </div>
             <div>
               <p class="text-xs text-(--color-text-tertiary)">{t(locale, 'contact.info.email')}</p>
-              <p class="text-sm font-medium text-(--color-text-primary)">iroldan.work@gmail.com</p>
+              <p class="text-sm font-medium text-(--color-text-primary)">{t(locale, 'contact.info.emailValue')}</p>
             </div>
           </div>
 
@@ -270,7 +270,7 @@ const { locale } = Astro.props;
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
-          Enviando...
+          ${t(locale, 'contact.form.sending')}
         </span>
       `;
 
@@ -280,14 +280,14 @@ const { locale } = Astro.props;
         // Honeypot check 
         if (formData.get('_gotcha')) {
           console.warn('Spam detected via honeypot.');
-          showToast('¡Mensaje enviado con éxito!', 'success'); // Fake success
+          showToast(t(locale, 'contact.form.success'), 'success'); // Fake success
           contactForm.reset();
           return;
         }
 
         if (!GOOGLE_SHEET_URL) {
           console.warn('Google Sheets URL not configured.');
-          showToast('Por favor, configura la URL de Google Sheets en el código.', 'error');
+          showToast(t(locale, 'contact.form.missingUrl'), 'error');
           return;
         }
 
@@ -303,11 +303,11 @@ const { locale } = Astro.props;
 
         // Since we use no-cors, we can't really read the status, 
         // but if it doesn't throw, it likely worked.
-        showToast('¡Mensaje enviado con éxito!', 'success');
+        showToast(t(locale, 'contact.form.success'), 'success');
         contactForm.reset();
       } catch (error) {
         console.error('Error submitting form:', error);
-        showToast('Hubo un error al enviar el mensaje. Por favor, intenta de nuevo.', 'error');
+        showToast(t(locale, 'contact.form.error'), 'error');
       } finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalBtnText;

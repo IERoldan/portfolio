@@ -4,6 +4,17 @@
       "source": "/sitemap.xml",
       "destination": "/sitemap-index.xml",
       "permanent": false
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.rolivstudio.com"
+        }
+      ],
+      "destination": "https://rolivstudio.com/$1",
+      "permanent": true
     }
   ],
   "headers": [

@@ -18,7 +18,7 @@ const currentYear = new Date().getFullYear();
 
       <div class="flex flex-col gap-4 text-left md:max-w-sm">
         <a href={`/${locale}/`} class="flex items-center justify-start group hover:opacity-90 transition-opacity -ml-3 md:-mt-6">
-          <img src="/img/logo_portfolio.svg" alt="" class="w-[70px] h-[70px]" aria-hidden="true" />
+          <img src="/img/logo_portfolio.svg" alt="Roliv Studio Logo" class="w-[70px] h-[70px]" aria-hidden="true" />
           <span class="text-xl font-bold tracking-tight text-(--color-text-primary) -ml-3">
             Iván<span class="text-(--color-accent-500)">Roldán</span>
           </span>
@@ -53,14 +53,14 @@ const currentYear = new Date().getFullYear();
       <div class="flex flex-col gap-6 text-left">
         <div>
           <h3 class="text-sm font-bold uppercase tracking-wider text-(--color-text-primary) mb-4">
-            Connect
+          {t(locale, 'common.connect')}
           </h3>
           <div class="flex items-center justify-start gap-4">
             <!-- Email -->
             <a
-              href="mailto:ivan.elias.roldan@gmail.com"
+              href="mailto:hello@rolivstudio.com"
               class="p-2.5 text-(--color-text-secondary) hover:text-white hover:bg-(--color-accent-500) rounded-xl transition-all duration-300 shadow-sm"
-              aria-label="Email"
+              aria-label={t(locale, 'social.emailLabel')}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -72,7 +72,7 @@ const currentYear = new Date().getFullYear();
             <a
               href="https://wa.me/558183342069"
               class="p-2.5 text-(--color-text-secondary) hover:text-white hover:bg-(--color-accent-500) rounded-xl transition-all duration-300 shadow-sm"
-              aria-label="WhatsApp"
+              aria-label={t(locale, 'social.whatsappLabel')}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -84,7 +84,7 @@ const currentYear = new Date().getFullYear();
             <a
               href={t(locale, 'social.github')}
               class="p-2.5 text-(--color-text-secondary) hover:text-white hover:bg-(--color-accent-500) rounded-xl transition-all duration-300 shadow-sm"
-              aria-label="GitHub"
+              aria-label={t(locale, 'social.githubLabel')}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -96,7 +96,7 @@ const currentYear = new Date().getFullYear();
             <a
               href={t(locale, 'social.linkedin')}
               class="p-2.5 text-(--color-text-secondary) hover:text-white hover:bg-(--color-accent-500) rounded-xl transition-all duration-300 shadow-sm"
-              aria-label="LinkedIn"
+              aria-label={t(locale, 'social.linkedinLabel')}
               target="_blank"
               rel="noopener noreferrer"
             >

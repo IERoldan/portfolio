@@ -68,9 +68,18 @@ const ogLocaleMap: Record<Locale, string> = {
     <!-- hreflang alternates para SEO multiidioma -->
     {locales.map((lang) => {
       const segments = currentPath.split('/').filter(Boolean);
-      if (segments.length > 0) segments[0] = lang;
-      else segments.unshift(lang);
-      const href = new URL('/' + segments.join('/') + '/', Astro.site);
+      // Determine the localized path
+      let localizedPath = '';
+      if (segments.length > 0 && locales.includes(segments[0] as Locale)) {
+        // If first segment is a locale, replace it
+        segments[0] = lang;
+        localizedPath = '/' + segments.join('/') + '/';
+      } else {
+        // Otherwise prefix it
+        localizedPath = '/' + lang + (currentPath === '/' ? '/' : currentPath);
+      }
+      
+      const href = new URL(localizedPath, Astro.site);
       return <link rel="alternate" hreflang={lang} href={href.href} />;
     })}
     <link rel="alternate" hreflang="x-default" href={new URL('/en/', Astro.site).href} />
