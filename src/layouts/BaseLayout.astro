@@ -1,0 +1,164 @@
+---
+/**
+ * BaseLayout — Layout principal del portfolio
+ *
+ * Incluye:
+ * - SEO Head con meta tags por locale
+ * - hreflang alternates para i18n
+ * - Open Graph & Twitter Card
+ * - JSON-LD structured data
+ * - Theme script (dark/light mode)
+ * - Header y Footer
+ */
+import Header from '../components/Header.astro';
+import Chatbot from '../components/Chatbot.astro';
+import Footer from '../components/Footer.astro';
+import CookieBanner from '../components/CookieBanner.astro';
+import { t, locales, type Locale } from '../i18n/index';
+import '../styles/global.css';
+
+interface Props {
+  locale: Locale;
+  pageKey?: string; // 'home' | 'blog' | 'faq'
+  currentPath: string;
+}
+
+const { locale, pageKey = 'home', currentPath } = Astro.props;
+
+// SEO metadata por página y locale
+const seoTitle = t(locale, `seo.${pageKey}.title`);
+const seoDescription = t(locale, `seo.${pageKey}.description`);
+const canonicalURL = new URL(currentPath, Astro.site);
+
+// Locale para Open Graph
+const ogLocaleMap: Record<Locale, string> = {
+  es: 'es_ES',
+  en: 'en_US',
+  pt: 'pt_BR',
+};
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO Core -->
+    <title>{seoTitle}</title>
+    <meta name="description" content={seoDescription} />
+    <meta name="keywords" content="Roliv Studio, Ivan Roldan, frontend developer, Webflow, React, Node.js, SEO, automatización IA, portfolio" />
+    <meta name="author" content="Ivan Elias Roldan" />
+    <meta name="robots" content="index, follow" />
+
+    <link rel="canonical" href={canonicalURL.href} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/img/logo_portfolio.svg" />
+
+    <!-- Preload Inter font for performance -->
+    <link
+      rel="preload"
+      href="/fonts/Inter-Variable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <!-- hreflang alternates para SEO multiidioma -->
+    {locales.map((lang) => {
+      const segments = currentPath.split('/').filter(Boolean);
+      // Determine the localized path
+      let localizedPath = '';
+      if (segments.length > 0 && locales.includes(segments[0] as Locale)) {
+        // If first segment is a locale, replace it
+        segments[0] = lang;
+        localizedPath = '/' + segments.join('/') + '/';
+      } else {
+        // Otherwise prefix it
+        localizedPath = '/' + lang + (currentPath === '/' ? '/' : currentPath);
+      }
+      
+      const href = new URL(localizedPath, Astro.site);
+      return <link rel="alternate" hreflang={lang} href={href.href} />;
+    })}
+    <link rel="alternate" hreflang="x-default" href={new URL('/en/', Astro.site).href} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={seoTitle} />
+    <meta property="og:description" content={seoDescription} />
+    <meta property="og:url" content={canonicalURL.href} />
+    <meta property="og:locale" content={ogLocaleMap[locale]} />
+    <meta property="og:site_name" content={t(locale, 'hero.name')} />
+    {locales.filter(l => l !== locale).map(l => (
+      <meta property="og:locale:alternate" content={ogLocaleMap[l]} />
+    ))}
+
+    <!-- Open Graph Image -->
+    <meta property="og:image" content="https://rolivstudio.com/img/ivan_img.webp" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Roliv Studio — Ivan Elias Roldan" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={seoTitle} />
+    <meta name="twitter:description" content={seoDescription} />
+    <meta name="twitter:image" content="https://rolivstudio.com/img/ivan_img.webp" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": t(locale, 'hero.name'),
+      "jobTitle": "Frontend Developer & Webflow Specialist",
+      "description": seoDescription,
+      "url": "https://rolivstudio.com",
+      "image": "https://rolivstudio.com/img/ivan_img.webp",
+      "sameAs": [
+        "https://github.com/IERoldan",
+        "https://www.linkedin.com/in/ivan-elias-roldan-130b72174/"
+      ],
+      "knowsLanguage": ["es", "en", "pt"],
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Roliv Studio",
+        "url": "https://rolivstudio.com"
+      }
+    })} />
+
+    <!-- Theme: aplicar antes del render para evitar FOUC -->
+    <script is:inline>
+      (function() {
+        const stored = localStorage.getItem('theme');
+        // Default: light. Solo aplica dark si el usuario lo guardó explícitamente
+        // o si su sistema operativo prefiere dark y nunca eligió manualmente.
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const isDark = stored ? stored === 'dark' : prefersDark;
+        if (isDark) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      })();
+    </script>
+  </head>
+
+  <body class="bg-(--color-bg) text-(--color-text-primary) font-sans min-h-screen flex flex-col transition-colors duration-300">
+    <Header locale={locale} currentPath={currentPath} />
+
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <Footer locale={locale} />
+
+    <Chatbot />
+    <CookieBanner />
+
+    <!-- Scripts de animación — cargados al final para no bloquear render -->
+    <script src="../scripts/typewriter.ts"></script>
+    <script src="../scripts/scroll-effects.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,377 @@
+---
+/**
+ * Timeline Section
+ *
+ * - Mobile (< md): vertical scroll timeline with sequential border-paint animation
+ * - Desktop (md+): horizontal scroll-pinned timeline
+ */
+import { t, type Locale } from '../i18n/index';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const jobs = [
+  { titleKey: 'experience.job1.title', companyKey: 'experience.job1.company', periodKey: 'experience.job1.period', descKey: 'experience.job1.description' },
+  { titleKey: 'experience.job2.title', companyKey: 'experience.job2.company', periodKey: 'experience.job2.period', descKey: 'experience.job2.description' },
+  { titleKey: 'experience.job3.title', companyKey: 'experience.job3.company', periodKey: 'experience.job3.period', descKey: 'experience.job3.description' },
+  { titleKey: 'experience.job4.title', companyKey: 'experience.job4.company', periodKey: 'experience.job4.period', descKey: 'experience.job4.description' },
+];
+---
+
+<!-- Section header -->
+<section class="bg-(--color-bg-alt) pt-20 md:pt-28 pb-6 md:pb-10" id="experience">
+  <div class="container-custom">
+    <div>
+      <span class="reveal inline-block px-3 py-1 text-xs font-semibold text-(--color-accent-500) bg-(--color-accent-500)/10 rounded-full uppercase tracking-wider mb-4">
+        {t(locale, 'experience.label')}
+      </span>
+      <h2 class="reveal reveal-delay-1 text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
+        {t(locale, 'experience.title')}
+      </h2>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MOBILE VERTICAL TIMELINE (hidden on md+) ═══ -->
+<div class="md:hidden bg-(--color-bg-alt) pb-20 px-4">
+  <div class="relative max-w-sm mx-auto">
+    <div class="mobile-tl-wrapper flex flex-col py-4">
+      {jobs.map((job, i) => (
+        <div class="mobile-tl-segment">
+          {i > 0 && (
+            <div class="mobile-tl-connector relative overflow-hidden mx-auto" data-tl-connector={i - 1} style="width: 2px; height: 48px;">
+              <div class="absolute inset-0 bg-(--color-border)/30 rounded-full"></div>
+              <div class="mobile-tl-connector-fill absolute inset-x-0 top-0 w-full rounded-full" style="height: 0%; background: var(--color-accent-500); box-shadow: 0 0 6px var(--color-accent-500);"></div>
+            </div>
+          )}
+          <div class="mobile-tl-card-wrap w-full relative" data-tl-card={i}>
+            <!-- SVG border paint overlay -->
+            <svg class="mobile-tl-svg absolute inset-0 w-full h-full pointer-events-none z-20" fill="none" style="overflow: visible;"></svg>
+            <!-- Card content -->
+            <div class="mobile-tl-card-content relative z-10 bg-(--color-bg) rounded-2xl p-5 border border-(--color-border)/40" style="opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.5s ease;">
+              <span class="text-[11px] font-semibold text-(--color-accent-500) uppercase tracking-[0.2em] mb-2 block">
+                {t(locale, job.periodKey)}
+              </span>
+              <h3 class="text-base font-bold text-(--color-text-primary) mb-1 leading-tight">
+                {t(locale, job.titleKey)}
+              </h3>
+              <p class="text-sm font-semibold text-(--color-accent-500)/80 mb-2">
+                {t(locale, job.companyKey)}
+              </p>
+              <p class="text-[13px] text-(--color-text-secondary) leading-relaxed">
+                {t(locale, job.descKey)}
+              </p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DESKTOP HORIZONTAL PINNED TIMELINE (hidden on mobile) ═══ -->
+<div class="hidden md:block">
+  <div class="relative bg-(--color-bg-alt)" id="timeline-pin-container" style={`height: ${(jobs.length + 1) * 100}vh;`}>
+    <div class="sticky top-0 h-screen overflow-hidden flex items-center">
+
+      <div class="absolute bottom-0 left-0 right-0 h-[2px] bg-(--color-border)/30" aria-hidden="true">
+        <div class="timeline-bottom-progress h-full bg-(--color-accent-500) rounded-full transition-[width] duration-200 ease-out" style="width: 0%; box-shadow: 0 0 8px var(--color-accent-500);"></div>
+      </div>
+
+      <div class="timeline-track absolute inset-0 will-change-transform" style="transition: transform 0.15s ease-out;">
+        <div class="timeline-line absolute top-1/2 h-px bg-(--color-border) -translate-y-[0.5px]" aria-hidden="true"></div>
+
+        {jobs.map((job, i) => {
+          const isAbove = i % 2 === 0;
+          return (
+            <div class="timeline-card-container absolute" style="top: 0; bottom: 0;">
+              <div class={`absolute left-0 right-0 ${isAbove ? 'bottom-[50%]' : 'top-[50%]'}`}
+                   style={`${isAbove ? 'padding-bottom: 28px;' : 'padding-top: 28px;'}`}>
+                <div class={`flex flex-col ${isAbove ? 'justify-end' : 'justify-start'}`}>
+                  {isAbove ? null : (
+                    <span class="text-[11px] font-semibold text-(--color-accent-500) uppercase tracking-[0.2em] mb-2 px-1">
+                      {t(locale, job.periodKey)}
+                    </span>
+                  )}
+                  <div class="bg-(--color-bg) border border-(--color-border) rounded-2xl p-5 md:p-6 transition-all duration-300 hover:border-(--color-accent-500)/40 hover:shadow-xl hover:shadow-(--color-accent-500)/5 group">
+                    <h3 class="text-sm md:text-base font-bold text-(--color-text-primary) mb-1 group-hover:text-(--color-accent-500) transition-colors leading-tight">
+                      {t(locale, job.titleKey)}
+                    </h3>
+                    <p class="text-xs md:text-sm font-semibold text-(--color-accent-500) mb-2">
+                      {t(locale, job.companyKey)}
+                    </p>
+                    <p class="text-[12px] md:text-[13px] text-(--color-text-secondary) leading-relaxed">
+                      {t(locale, job.descKey)}
+                    </p>
+                  </div>
+                  {isAbove ? (
+                    <span class="text-[11px] font-semibold text-(--color-accent-500) uppercase tracking-[0.2em] mt-2 px-1">
+                      {t(locale, job.periodKey)}
+                    </span>
+                  ) : null}
+                </div>
+              </div>
+
+              <div
+                class="timeline-dot absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-(--color-accent-500) bg-(--color-bg-alt) z-10 transition-all duration-500"
+                data-dot-index={i}
+                aria-hidden="true"
+              ></div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .mobile-tl-svg path {
+    transition: stroke-dashoffset 0.05s linear;
+  }
+</style>
+
+<script is:inline>
+// ═══ Mobile Vertical Timeline – SVG Border Paint ═══
+(function() {
+  var wrapper = document.querySelector('.mobile-tl-wrapper');
+  if (!wrapper) return;
+
+  var cardWraps = wrapper.querySelectorAll('.mobile-tl-card-wrap');
+  var connectorFills = wrapper.querySelectorAll('.mobile-tl-connector-fill');
+  if (!cardWraps.length) return;
+
+  var N = cardWraps.length;
+  var totalSegments = 2 * N - 1;
+
+  // Get accent color once
+  var accentColor = getComputedStyle(document.documentElement).getPropertyValue('--color-accent-500').trim();
+
+  // Initialize SVG paths for each card
+  function initSVGs() {
+    cardWraps.forEach(function(wrap) {
+      var svg = wrap.querySelector('.mobile-tl-svg');
+      if (!svg || svg.childElementCount > 0) return; // already initialized
+
+      var w = wrap.offsetWidth;
+      var h = wrap.offsetHeight;
+      svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+
+      var R = 16; // border-radius for rounded-2xl
+      var s = 1;  // half stroke width (inset)
+
+      // Right half: top-center → right side → bottom-center (clockwise)
+      var rD = 'M ' + (w/2) + ' ' + s +
+              ' L ' + (w - R) + ' ' + s +
+              ' A ' + (R - s) + ' ' + (R - s) + ' 0 0 1 ' + (w - s) + ' ' + R +
+              ' L ' + (w - s) + ' ' + (h - R) +
+              ' A ' + (R - s) + ' ' + (R - s) + ' 0 0 1 ' + (w - R) + ' ' + (h - s) +
+              ' L ' + (w/2) + ' ' + (h - s);
+
+      // Left half: top-center → left side → bottom-center (counter-clockwise)
+      var lD = 'M ' + (w/2) + ' ' + s +
+              ' L ' + R + ' ' + s +
+              ' A ' + (R - s) + ' ' + (R - s) + ' 0 0 0 ' + s + ' ' + R +
+              ' L ' + s + ' ' + (h - R) +
+              ' A ' + (R - s) + ' ' + (R - s) + ' 0 0 0 ' + R + ' ' + (h - s) +
+              ' L ' + (w/2) + ' ' + (h - s);
+
+      var NS = 'http://www.w3.org/2000/svg';
+
+      var rPath = document.createElementNS(NS, 'path');
+      rPath.setAttribute('d', rD);
+      rPath.setAttribute('stroke', accentColor);
+      rPath.setAttribute('stroke-width', '2.5');
+      rPath.setAttribute('stroke-linecap', 'round');
+      rPath.setAttribute('fill', 'none');
+      var rLen = rPath.getTotalLength();
+      rPath.style.strokeDasharray = rLen;
+      rPath.style.strokeDashoffset = rLen;
+      svg.appendChild(rPath);
+
+      var lPath = document.createElementNS(NS, 'path');
+      lPath.setAttribute('d', lD);
+      lPath.setAttribute('stroke', accentColor);
+      lPath.setAttribute('stroke-width', '2.5');
+      lPath.setAttribute('stroke-linecap', 'round');
+      lPath.setAttribute('fill', 'none');
+      var lLen = lPath.getTotalLength();
+      lPath.style.strokeDasharray = lLen;
+      lPath.style.strokeDashoffset = lLen;
+      svg.appendChild(lPath);
+
+      // Store references on the element
+      wrap._rPath = rPath;
+      wrap._lPath = lPath;
+      wrap._rLen = rLen;
+      wrap._lLen = lLen;
+    });
+  }
+
+  function update() {
+    var wrapRect = wrapper.getBoundingClientRect();
+    var viewH = window.innerHeight;
+
+    var startY = viewH * 0.75;
+    var endY = viewH * 0.3;
+    var scrolled = startY - wrapRect.top;
+    var animRange = (wrapRect.height - endY) + startY;
+    var totalProgress = Math.max(0, Math.min(1, scrolled / animRange));
+
+    for (var seg = 0; seg < totalSegments; seg++) {
+      var segStart = seg / totalSegments;
+      var segEnd = (seg + 1) / totalSegments;
+      var localP = Math.max(0, Math.min(1, (totalProgress - segStart) / (segEnd - segStart)));
+
+      if (seg % 2 === 0) {
+        // ── Card border paint via SVG stroke-dashoffset ──
+        var cardIdx = seg / 2;
+        var wrap = cardWraps[cardIdx];
+        var content = wrap.querySelector('.mobile-tl-card-content');
+
+        if (wrap._rPath) {
+          wrap._rPath.style.strokeDashoffset = wrap._rLen * (1 - localP);
+          wrap._lPath.style.strokeDashoffset = wrap._lLen * (1 - localP);
+        }
+
+        // Fade in card content during first 40% of border paint
+        if (content) {
+          var fadeP = Math.min(1, localP * 2.5);
+          content.style.opacity = fadeP;
+          content.style.transform = 'translateY(' + ((1 - fadeP) * 16) + 'px)';
+        }
+      } else {
+        // ── Connector line fill ──
+        var connIdx = (seg - 1) / 2;
+        if (connectorFills[connIdx]) {
+          connectorFills[connIdx].style.height = (localP * 100) + '%';
+        }
+      }
+    }
+  }
+
+  var ticking = false;
+  window.addEventListener('scroll', function() {
+    if (!ticking) {
+      requestAnimationFrame(function() {
+        update();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+
+  // Init after layout is ready
+  requestAnimationFrame(function() {
+    initSVGs();
+    update();
+  });
+
+  window.addEventListener('resize', function() {
+    // Re-init SVGs on resize
+    cardWraps.forEach(function(wrap) {
+      var svg = wrap.querySelector('.mobile-tl-svg');
+      if (svg) svg.innerHTML = '';
+      wrap._rPath = null;
+      wrap._lPath = null;
+    });
+    initSVGs();
+    update();
+  });
+})();
+
+// ═══ Desktop Horizontal Timeline ═══
+(function() {
+  var container = document.getElementById('timeline-pin-container');
+  if (!container) return;
+
+  var track = container.querySelector('.timeline-track');
+  var bottomProgress = container.querySelector('.timeline-bottom-progress');
+  var horizontalLine = container.querySelector('.timeline-line');
+  var titleElement = document.querySelector('#experience h2');
+  var dots = container.querySelectorAll('.timeline-dot');
+  var cards = container.querySelectorAll('.timeline-card-container');
+  if (!track) return;
+
+  var totalCards = dots.length;
+  var cardWidth = 400;
+
+  function initLayout() {
+    cardWidth = window.innerWidth < 768 ? 320 : 400;
+    var startOffset = 40;
+    var endMargin = 40;
+    if (titleElement) {
+      var titleRect = titleElement.getBoundingClientRect();
+      startOffset = titleRect.left;
+      endMargin = startOffset;
+    }
+    var cardSpacing = cardWidth + (window.innerWidth < 768 ? 40 : 80);
+
+    cards.forEach(function(card, i) {
+      card.style.left = (startOffset + (i * cardSpacing)) + 'px';
+      card.style.width = cardWidth + 'px';
+    });
+
+    if (horizontalLine) {
+      horizontalLine.style.left = (startOffset + cardWidth / 2) + 'px';
+      horizontalLine.style.width = ((totalCards - 1) * cardSpacing) + 'px';
+    }
+
+    var totalTrackWidth = startOffset + ((totalCards - 1) * cardSpacing) + cardWidth;
+    var viewportWidth = window.innerWidth;
+    var maxTranslate = Math.max(0, totalTrackWidth - (viewportWidth - endMargin));
+    container.dataset.maxTranslate = maxTranslate;
+    container.style.height = (maxTranslate + window.innerHeight) + 'px';
+  }
+
+  function updateTimeline() {
+    var rect = container.getBoundingClientRect();
+    var sectionTop = -rect.top;
+    var sectionHeight = container.offsetHeight - window.innerHeight;
+    var progress = Math.max(0, Math.min(1, sectionTop / sectionHeight));
+    var maxTranslate = parseFloat(container.dataset.maxTranslate || 0);
+    track.style.transform = 'translate3d(' + (-progress * maxTranslate) + 'px, 0, 0)';
+
+    var triggerPoint = window.innerWidth * 0.55;
+    for (var i = 0; i < dots.length; i++) {
+      var dotRect = dots[i].getBoundingClientRect();
+      if (dotRect.left <= triggerPoint || (i === dots.length - 1 && progress > 0.99)) {
+        dots[i].style.backgroundColor = 'var(--color-accent-500)';
+        dots[i].style.borderColor = 'var(--color-accent-500)';
+        dots[i].style.boxShadow = '0 0 12px var(--color-accent-500)';
+      } else {
+        dots[i].style.backgroundColor = 'var(--color-bg-alt)';
+        dots[i].style.borderColor = 'var(--color-accent-500)';
+        dots[i].style.boxShadow = 'none';
+      }
+    }
+
+    if (bottomProgress) {
+      bottomProgress.style.width = (progress * 100) + '%';
+    }
+  }
+
+  window.addEventListener('resize', function() {
+    initLayout();
+    updateTimeline();
+  });
+
+  initLayout();
+
+  var ticking = false;
+  window.addEventListener('scroll', function() {
+    if (!ticking) {
+      requestAnimationFrame(function() {
+        updateTimeline();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+
+  updateTimeline();
+})();
+</script>

@@ -1,0 +1,475 @@
+---
+/**
+ * Projects Section — Outward Fan / Deck Gallery
+ *
+ * Inspirado en "What's Up On Socials" de landonorris.com:
+ * - 5 cards desplegadas como abanico HACIA AFUERA
+ * - Card central al frente, las exteriores rotadas progresivamente
+ * - Al hover una card sube, se endereza y toma protagonismo
+ */
+import { t, type Locale } from '../i18n/index';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const projects = [
+  {
+    titleKey: 'projects.project2.title',
+    descKey: 'projects.project2.description',
+    tags: ['Astro', 'Tailwind', 'E-commerce'],
+    image: '/img/imprimafacil_logo.webp',
+    bgColor: '#a5031f',
+    url: 'https://imprimafacilweb.com',
+  },
+  {
+    titleKey: 'projects.project3.title',
+    descKey: 'projects.project3.description',
+    tags: ['Next.js', 'React', 'Landing'],
+    image: '/img/school-logo.svg',
+    bgColor: '#ffc233',
+    url: 'https://lexsite.vercel.app/',
+  },
+  {
+    titleKey: 'projects.project1.title',
+    descKey: 'projects.project1.description',
+    tags: ['Webflow', 'CMS', 'CRM'],
+    image: '/img/Logo-inconcertcx.svg',
+    bgColor: '#ffffff',
+    url: 'https://www.inconcertcx.com/es',
+  },
+  {
+    titleKey: 'projects.project4.title',
+    descKey: 'projects.project4.description',
+    tags: ['React', 'Frontend', 'Booking'],
+    image: null,
+    lottie: '/img/camera.lottie',
+    bgColor: '#fb923c',
+    url: 'https://project-lp-fotografo.vercel.app/',
+  },
+  {
+    titleKey: 'projects.project5.title',
+    descKey: 'projects.project5.description',
+    tags: ['Astro', 'i18n', 'Gemini AI'],
+    image: null,
+    lottie: '/img/Coding.lottie',
+    bgColor: 'transparent',
+    url: '#',
+  },
+];
+
+/**
+ * Fan positions: spread outward from center bottom pivot.
+ * Index 0 = far left, 2 = center, 4 = far right
+ * Rotations: negative = left, positive = right, center = 0
+ * TranslateX pushes cards apart, translateY lifts outer cards slightly
+ */
+const fanPositions = [
+  { rotate: -16, tx: -240, ty: 20, z: 1 },
+  { rotate: -8,  tx: -120, ty: 8,  z: 2 },
+  { rotate: 0,   tx: 0,    ty: 0,  z: 3 },
+  { rotate: 8,   tx: 120,  ty: 8,  z: 2 },
+  { rotate: 16,  tx: 240,  ty: 20, z: 1 },
+];
+---
+
+<section id="projects" class="py-20 md:py-32 overflow-hidden">
+  <div class="container-custom">
+    <!-- Section header -->
+    <div class="text-center mb-12 md:mb-30">
+      <span class="reveal inline-block px-3 py-1 text-xs font-semibold text-(--color-accent-500) bg-(--color-accent-500)/10 rounded-full uppercase tracking-wider mb-4">
+        {t(locale, 'projects.label')}
+      </span>
+      <h2 class="reveal reveal-delay-1 text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
+        {t(locale, 'projects.title')}
+      </h2>
+    </div>
+
+    <!-- Mobile carousel (hidden on md+) -->
+    <div class="md:hidden">
+      <div class="flex gap-5 overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4 scrollbar-hide" style="scroll-behavior: smooth;">
+        {projects.map((project, i) => (
+          <div class="snap-center shrink-0 w-[72vw] max-w-[280px] flex flex-col">
+            <div class="flex-1 flex flex-col bg-(--color-bg-alt) border border-(--color-border) rounded-2xl overflow-hidden shadow-xl shadow-black/15">
+              <!-- Image: fixed height so all cards look the same -->
+              <div class="relative h-[240px] bg-(--color-surface) overflow-hidden shrink-0">
+                {project.image ? (
+                  <div
+                    class="w-full h-full flex items-center justify-center p-6"
+                    style={project.bgColor ? `background-color: ${project.bgColor};` : ''}
+                  >
+                    <img
+                      src={project.image}
+                      alt={t(locale, project.titleKey)}
+                      class="w-full h-full object-contain"
+                      loading="lazy"
+                    />
+                  </div>
+                ) : project.lottie ? (
+                  <div
+                    class="w-full h-full flex items-center justify-center"
+                    style={project.bgColor ? `background-color: ${project.bgColor};` : ''}
+                  >
+                    <dotlottie-player src={project.lottie} speed="1" style="width: 100%; height: 100%;" loop autoplay></dotlottie-player>
+                  </div>
+                ) : (
+                  <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-(--color-surface) to-(--color-bg-alt)">
+                    <svg class="w-12 h-12 text-(--color-text-tertiary) opacity-15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5a2.25 2.25 0 002.25-2.25V5.25a2.25 2.25 0 00-2.25-2.25H3.75a2.25 2.25 0 00-2.25 2.25v13.5a2.25 2.25 0 002.25 2.25z" />
+                    </svg>
+                  </div>
+                )}
+                <!-- Tags -->
+                <div class="absolute bottom-2 left-2 right-2 flex flex-wrap gap-1">
+                  {project.tags.map((tag) => (
+                    <span class="px-2 py-0.5 text-[10px] font-semibold text-white/95 bg-black/50 backdrop-blur-md rounded-md">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <!-- Title -->
+              <div class="p-4 flex flex-col gap-1.5 flex-1">
+                <h3 class="text-sm font-bold text-(--color-text-primary) leading-tight">
+                  {t(locale, project.titleKey)}
+                </h3>
+                {project.url && project.url !== '#' && (
+                  <a href={project.url} target="_blank" rel="noopener noreferrer" data-event="project_view" class="inline-flex items-center gap-1 text-[11px] font-semibold text-(--color-accent-500) mt-0.5">
+                    {t(locale, 'common.viewSite')}
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <!-- Carousel dots -->
+      <div class="flex justify-center gap-2 mt-4">
+        {projects.map((_, i) => (
+          <div class="carousel-dot w-2 h-2 rounded-full bg-(--color-border) transition-colors duration-300" data-dot={i}></div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Desktop fan gallery (hidden on mobile) -->
+    <div class="hidden md:block">
+      <div class="fan-gallery relative flex items-end justify-center mx-auto" style="height: 480px; max-width: 900px;">
+        {projects.map((project, i) => (
+          <div
+            class="fan-card group absolute bottom-0 w-[200px] sm:w-[220px] md:w-[300px] transition-all duration-500 ease-out cursor-pointer origin-bottom"
+            style={`--fan-rotate: ${fanPositions[i].rotate}deg; --fan-tx: ${fanPositions[i].tx}px; --fan-ty: ${fanPositions[i].ty}px; z-index: ${fanPositions[i].z}; transform: translateX(var(--fan-tx)) translateY(var(--fan-ty)) rotate(var(--fan-rotate));`}
+            data-fan-index={i}
+            data-project-title={t(locale, project.titleKey)}
+            data-project-desc={t(locale, project.descKey)}
+            data-project-tags={project.tags.join(',')}
+            data-project-url={project.url}
+            data-project-image={project.image || ''}
+            data-project-lottie={project.lottie || ''}
+            data-project-bg={project.bgColor || ''}
+          >
+            <div class="bg-(--color-bg-alt) border border-(--color-border) rounded-2xl overflow-hidden shadow-xl shadow-black/15 transition-shadow duration-500">
+              <!-- Image -->
+              <div class="relative aspect-[3/4] bg-(--color-surface) overflow-hidden">
+                {project.image ? (
+                  <div
+                    class="w-full h-full flex items-center justify-center p-6"
+                    style={project.bgColor ? `background-color: ${project.bgColor};` : ''}
+                  >
+                    <img
+                      src={project.image}
+                      alt={t(locale, project.titleKey)}
+                      class="w-full h-full object-contain drop-shadow-sm"
+                      loading="lazy"
+                    />
+                  </div>
+                ) : project.lottie ? (
+                  <div
+                    class="w-full h-full flex items-center justify-center"
+                    style={project.bgColor ? `background-color: ${project.bgColor};` : ''}
+                  >
+                    <dotlottie-player src={project.lottie} speed="1" style="width: 100%; height: 100%;" loop autoplay></dotlottie-player>
+                  </div>
+                ) : (
+                  <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-(--color-surface) to-(--color-bg-alt)">
+                    <svg class="w-12 h-12 text-(--color-text-tertiary) opacity-15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5a2.25 2.25 0 002.25-2.25V5.25a2.25 2.25 0 00-2.25-2.25H3.75a2.25 2.25 0 00-2.25 2.25v13.5a2.25 2.25 0 002.25 2.25z" />
+                    </svg>
+                  </div>
+                )}
+                <!-- Tags -->
+                <div class="absolute bottom-2 left-2 right-2 flex flex-wrap gap-1">
+                  {project.tags.map((tag) => (
+                    <span class="px-2 py-0.5 text-[10px] font-semibold text-white/95 bg-black/50 backdrop-blur-md rounded-md">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <!-- Title + Ver sitio -->
+              <div class="p-3 md:p-4 flex flex-col gap-1.5">
+                <h3 class="text-xs md:text-sm font-bold text-(--color-text-primary) leading-tight line-clamp-2">
+                  {t(locale, project.titleKey)}
+                </h3>
+                {project.url && project.url !== '#' && (
+                  <div class="inline-flex items-center gap-1 text-[10px] md:text-[11px] font-semibold text-(--color-text-tertiary) group-hover:text-(--color-accent-500) transition-colors mt-0.5">
+                    <span class="relative">
+                      {t(locale, 'common.viewSite')}
+                      <span class="absolute left-0 -bottom-0.5 w-0 h-[1.5px] bg-(--color-accent-500) transition-all duration-300 group-hover:w-full"></span>
+                    </span>
+                    <svg class="w-2.5 h-2.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- View all -->
+    <div class="text-center mt-10">
+      <a
+        href={`/${locale}/blog/`}
+        class="reveal inline-flex items-center gap-2 text-sm font-medium text-(--color-accent-500) hover:text-(--color-accent-600) transition-colors"
+      >
+        {t(locale, 'projects.viewAll')}
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Project Modal -->
+<div id="project-modal" class="fixed inset-0 z-[999] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300" aria-hidden="true">
+  <!-- Backdrop -->
+  <div id="modal-backdrop" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+  
+  <!-- Modal content -->
+  <div id="modal-content" class="relative w-full max-w-md bg-(--color-bg) border border-(--color-border) rounded-2xl shadow-2xl overflow-hidden transform scale-95 transition-transform duration-300">
+    <!-- Modal header with image or lottie -->
+    <div id="modal-image-container" class="relative h-48 flex items-center justify-center p-8 overflow-hidden">
+      <img id="modal-image" src="" alt="" class="max-h-full max-w-full object-contain drop-shadow-md" />
+      <div id="modal-lottie-wrapper" style="width:100%;height:100%;display:none;"></div>
+    </div>
+    
+    <!-- Modal body -->
+    <div class="p-6">
+      <!-- Close button -->
+      <button id="modal-close" class="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full bg-black/30 backdrop-blur-sm text-white hover:bg-black/50 transition-colors" aria-label={t(locale, 'common.close')}>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      
+      <!-- Tags -->
+      <div id="modal-tags" class="flex flex-wrap gap-2 mb-3"></div>
+      
+      <!-- Title -->
+      <h3 id="modal-title" class="text-xl font-bold text-(--color-text-primary) mb-2"></h3>
+      
+      <!-- Description -->
+      <p id="modal-desc" class="text-sm text-(--color-text-secondary) leading-relaxed mb-6"></p>
+      
+      <!-- Actions -->
+      <div class="flex gap-3">
+        <a id="modal-visit" href="#" target="_blank" rel="noopener noreferrer" data-event="project_view" class="flex-1 inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-(--color-accent-500) hover:bg-(--color-accent-600) text-white text-sm font-semibold rounded-xl transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+          </svg>
+          {t(locale, 'common.visitSite')}
+        </a>
+        <button id="modal-cancel" class="px-5 py-2.5 border border-(--color-border) text-(--color-text-secondary) text-sm font-semibold rounded-xl hover:bg-(--color-surface) transition-colors">
+          {t(locale, 'common.close')}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* On hover: straighten, lift up, scale, bring to front */
+  .fan-card:hover {
+    transform: translateX(var(--fan-tx)) translateY(-30px) rotate(0deg) scale(1.1) !important;
+    z-index: 20 !important;
+  }
+  .fan-card:hover > div {
+    box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.35);
+  }
+  /* Dim non-hovered cards */
+  .fan-gallery:hover .fan-card:not(:hover) {
+    opacity: 0.65;
+    filter: brightness(0.8);
+  }
+
+  @media (max-width: 640px) {
+    .fan-card {
+      --fan-tx: calc(var(--fan-tx) * 0.55) !important;
+    }
+  }
+
+  /* Hide scrollbar for carousel */
+  .scrollbar-hide {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Active carousel dot */
+  .carousel-dot.active {
+    background-color: var(--color-accent-500);
+    transform: scale(1.3);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fan-card {
+      transition: none !important;
+    }
+  }
+
+  /* Modal open state */
+  #project-modal.modal-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  #project-modal.modal-open #modal-content {
+    transform: scale(1);
+  }
+</style>
+
+<script is:inline>
+(function() {
+  var modal = document.getElementById('project-modal');
+  var backdrop = document.getElementById('modal-backdrop');
+  var closeBtn = document.getElementById('modal-close');
+  var cancelBtn = document.getElementById('modal-cancel');
+  var modalTitle = document.getElementById('modal-title');
+  var modalDesc = document.getElementById('modal-desc');
+  var modalTags = document.getElementById('modal-tags');
+  var modalVisit = document.getElementById('modal-visit');
+  var modalImage = document.getElementById('modal-image');
+  var modalLottieWrapper = document.getElementById('modal-lottie-wrapper');
+  var modalImageContainer = document.getElementById('modal-image-container');
+  var fanCards = document.querySelectorAll('.fan-card');
+
+  if (!modal) return;
+
+  function openModal(card) {
+    var title = card.getAttribute('data-project-title');
+    var desc = card.getAttribute('data-project-desc');
+    var tags = card.getAttribute('data-project-tags').split(',');
+    var url = card.getAttribute('data-project-url');
+    var image = card.getAttribute('data-project-image');
+    var lottie = card.getAttribute('data-project-lottie');
+    var bg = card.getAttribute('data-project-bg');
+
+    modalTitle.textContent = title;
+    modalDesc.textContent = desc;
+    modalVisit.href = url;
+
+    // Hide visit button if url is # (self)
+    if (url === '#') {
+      modalVisit.style.display = 'none';
+    } else {
+      modalVisit.style.display = '';
+    }
+
+    // Tags
+    modalTags.innerHTML = '';
+    tags.forEach(function(tag) {
+      var span = document.createElement('span');
+      span.className = 'px-2.5 py-1 text-xs font-medium text-(--color-accent-600) dark:text-(--color-accent-400) bg-(--color-accent-500)/10 rounded-full';
+      span.textContent = tag.trim();
+      modalTags.appendChild(span);
+    });
+
+    // Image or Lottie
+    modalImageContainer.style.backgroundColor = bg || '#f8fafc';
+
+    if (image) {
+      modalImage.src = image;
+      modalImage.alt = title;
+      modalImage.style.display = '';
+      modalLottieWrapper.style.display = 'none';
+      modalLottieWrapper.innerHTML = '';
+    } else if (lottie) {
+      modalImage.style.display = 'none';
+      modalLottieWrapper.style.display = '';
+      modalLottieWrapper.innerHTML = '<dotlottie-player src="' + lottie + '" speed="1" style="width:100%;height:100%;" loop autoplay></dotlottie-player>';
+    } else {
+      modalImage.style.display = 'none';
+      modalLottieWrapper.style.display = 'none';
+      modalLottieWrapper.innerHTML = '';
+    }
+
+    modal.classList.add('modal-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.remove('modal-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    // Clean up lottie
+    modalLottieWrapper.innerHTML = '';
+    modalLottieWrapper.style.display = 'none';
+  }
+
+  fanCards.forEach(function(card) {
+    card.addEventListener('click', function(e) {
+      // Don't open modal if clicking the visit button
+      if (e.target.closest('.card-visit-btn')) return;
+      openModal(card);
+    });
+  });
+
+  closeBtn.addEventListener('click', closeModal);
+  cancelBtn.addEventListener('click', closeModal);
+  backdrop.addEventListener('click', closeModal);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && modal.classList.contains('modal-open')) {
+      closeModal();
+    }
+  });
+})();
+</script>
+
+<script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+
+<script is:inline>
+// ─── Carousel dot indicators ───
+(function() {
+  var carousel = document.querySelector('.scrollbar-hide');
+  var dots = document.querySelectorAll('.carousel-dot');
+  if (!carousel || !dots.length) return;
+
+  function updateDots() {
+    var scrollLeft = carousel.scrollLeft;
+    var itemWidth = carousel.querySelector('.snap-center') ? carousel.querySelector('.snap-center').offsetWidth + 20 : carousel.scrollWidth / dots.length;
+    var active = Math.round(scrollLeft / itemWidth);
+    dots.forEach(function(dot, i) {
+      if (i === active) {
+        dot.classList.add('active');
+      } else {
+        dot.classList.remove('active');
+      }
+    });
+  }
+
+  carousel.addEventListener('scroll', updateDots, { passive: true });
+  // Set first dot active on load
+  if (dots[0]) dots[0].classList.add('active');
+})();
+</script>
