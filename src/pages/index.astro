@@ -9,48 +9,18 @@
  */
 export const prerender = false;
 
-import type { APIContext } from 'astro';
-
 // Códigos de país (region) que usan español como idioma principal
 const SPANISH_REGIONS = new Set([
-  'es', // España
-  'mx', // México
-  'ar', // Argentina
-  'co', // Colombia
-  'pe', // Perú
-  've', // Venezuela
-  'cl', // Chile
-  'ec', // Ecuador
-  'gt', // Guatemala
-  'cu', // Cuba
-  'bo', // Bolivia
-  'do', // República Dominicana
-  'hn', // Honduras
-  'py', // Paraguay
-  'sv', // El Salvador
-  'ni', // Nicaragua
-  'cr', // Costa Rica
-  'pa', // Panamá
-  'uy', // Uruguay
-  'gq', // Guinea Ecuatorial
-  'pr', // Puerto Rico
-  'us', // es-US (comunidades latinas)
+  'es', 'mx', 'ar', 'co', 'pe', 've', 'cl', 'ec', 'gt', 'cu', 'bo', 'do', 'hn', 'py', 'sv', 'ni', 'cr', 'pa', 'uy', 'gq', 'pr', 'us'
 ]);
 
 // Códigos de país (region) que usan portugués como idioma principal
 const PORTUGUESE_REGIONS = new Set([
-  'br', // Brasil
-  'pt', // Portugal
-  'ao', // Angola
-  'mz', // Mozambique
-  'cv', // Cabo Verde
-  'st', // São Tomé y Príncipe
-  'gw', // Guinea-Bissau
-  'tl', // Timor-Leste
+  'br', 'pt', 'ao', 'mz', 'cv', 'st', 'gw', 'tl'
 ]);
 
 function detectLocale(acceptLanguage: string | null): string {
-  if (!acceptLanguage) return 'en';
+  if (!acceptLanguage) return 'es'; // Default to Spanish as per config
 
   const langs = acceptLanguage
     .split(',')
@@ -79,16 +49,9 @@ function detectLocale(acceptLanguage: string | null): string {
   return 'en';
 }
 
-export async function GET({ request }: APIContext) {
-  const acceptLanguage = request.headers.get('accept-language');
-  const locale = detectLocale(acceptLanguage);
+// Logic execution
+const acceptLanguage = Astro.request.headers.get('accept-language');
+const locale = detectLocale(acceptLanguage);
 
-  return new Response(null, {
-    status: 302,
-    headers: {
-      'Location': `/${locale}/`,
-      'Vary': 'Accept-Language',
-    },
-  });
-}
+return Astro.redirect(`/${locale}/`);
 ---
