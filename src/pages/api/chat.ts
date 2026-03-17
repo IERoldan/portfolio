@@ -83,7 +83,7 @@ function validateMessages(messages: any[]): { valid: boolean; error?: string } {
             return { valid: false, error: 'Message content must be a string.' };
         }
 
-        if (msg.content.length > MAX_MESSAGE_LENGTH) {
+        if (msg.role === 'user' && msg.content.length > MAX_MESSAGE_LENGTH) {
             return { valid: false, error: `Message too long. Maximum is ${MAX_MESSAGE_LENGTH} characters.` };
         }
     }
