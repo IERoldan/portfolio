@@ -6,7 +6,6 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://rolivstudio.com',
-
   // Server mode: páginas prerender por defecto (estáticas),
   // excepto endpoints con prerender = false (chatbot API, root redirect)
   output: 'server',

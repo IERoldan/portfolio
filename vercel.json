@@ -4,11 +4,6 @@
       "source": "/sitemap.xml",
       "destination": "/sitemap-index.xml",
       "permanent": false
-    },
-    {
-      "source": "/",
-      "destination": "/es/",
-      "permanent": true
     }
   ],
   "headers": [
