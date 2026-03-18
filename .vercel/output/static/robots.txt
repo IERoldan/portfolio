@@ -1,6 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /api/
-
-# Sitemap
-Sitemap: https://rolivstudio.com/sitemap-index.xml
