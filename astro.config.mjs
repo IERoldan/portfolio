@@ -10,6 +10,10 @@ export default defineConfig({
   // excepto endpoints con prerender = false (chatbot API, root redirect)
   output: 'server',
   adapter: vercel(),
+  trailingSlash: 'always',
+  build: {
+    format: 'directory',
+  },
 
   // Tailwind CSS v4 via Vite plugin
   vite: {
@@ -31,6 +35,7 @@ export default defineConfig({
   integrations: [
     sitemap({
       xslURL: '/sitemap.xsl',
+      filter: (page) => page !== 'https://rolivstudio.com/',
       i18n: {
         defaultLocale: 'es',
         locales: {
