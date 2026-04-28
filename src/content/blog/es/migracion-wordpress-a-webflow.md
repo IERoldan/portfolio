@@ -1,10 +1,13 @@
 ---
 title: "De WordPress a Webflow: Cómo migramos un sitio global sin perder una sola visita orgánica"
+translationKey: "migracion-wordpress-a-webflow"
 description: "Un desglose técnico sobre migraciones seguras, mapeo de URLs 301, estructuración CMS Collections y el impacto real en el rendimiento SEO."
 date: 2026-03-01
 category: "casestudy"
 lang: "es"
 image: "/img/blog/migracion_webflow.webp"
+seoTitle: "Migración de WordPress a Webflow: Guía Técnica sin Perder Tráfico SEO"
+seoDescription: "Caso de estudio técnico: Mapeos 301, estructuración de bases de datos CMS y migración B2B a entornos escalables preservando tráfico orgánico al 100%."
 ---
 
 Las empresas temen, con justa razón, perder su posicionamiento orgánico (SEO) al cambiar de tecnología. Migrar una plataforma madura de WordPress a Webflow sin una estrategia arquitectónica puede ser desastroso.

@@ -1,10 +1,13 @@
 ---
 title: "Arquitectura Frontend Escalable: Mi framework mental usando React y TypeScript"
+translationKey: "arquitectura-frontend-escalable"
 description: "Técnicas probadas para estructurar SPAs masivas: custom hooks robustos, separación de contexto, inyección de estado y clean code B2B."
 date: 2026-03-06
 category: "tutorial"
 lang: "es"
 image: "/img/blog/react_arquitectura.webp"
+seoTitle: "Patrones de Arquitectura Frontend Escalable con React y TypeScript en 2026"
+seoDescription: "Descubrí cómo estructurar aplicaciones React empresariales para máxima escalabilidad: custom hooks, manejo de estado óptimo (SWR, Zustand) y Clean Code B2B."
 ---
 
 A lo largo de los años construyendo plataformas robustas (Dashboards, CRMs internos y E-commerces como desarrollador Full-Stack), la mayor diferencia entre un código de juguete y el código empresarial es el nivel de mantenibilidad. 

@@ -1,10 +1,13 @@
 ---
 title: "Por qué el código perfecto no sirve si no entiende el negocio (ROI vs Sintaxis)"
+translationKey: "codigo-perfecto-vs-negocio"
 description: "Por qué las empresas gastan de más en tecnología sin estrategia. Cómo un trasfondo en operaciones alinea el desarrollo técnico con plazos y retornos."
 date: 2026-03-04
 category: "thoughts"
 lang: "es"
 image: "/img/blog/roi_negocio.webp"
+seoTitle: "Deuda Técnica y Desarrollo de Software: Por qué el ROI es más Importante"
+seoDescription: "Análisis sobre por qué aplicar mentalidad de negocio y operaciones financieras al desarrollo (Vibe Coding) evita sobrecostos innecesarios en startups."
 ---
 
 Muchos desarrolladores Junior y Mid-level cometen un error sistemático: enamorarse de la tecnología en lugar del problema que están resolviendo.

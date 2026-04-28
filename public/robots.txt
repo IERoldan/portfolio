@@ -1,6 +1,9 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /*.pdf$
+Disallow: /_astro/
+Disallow: /404
 
 # Sitemap
 Sitemap: https://rolivstudio.com/sitemap-index.xml

@@ -1,10 +1,13 @@
 ---
 title: "Automatizando la Atención al Cliente: Cómo integrar Agentes de IA en tu Webflow"
+translationKey: "automatizando-atencion-con-ia"
 description: "Paso a paso para crear un asistente inteligente en tu sitio corporativo que cierre ventas, alimente tu CRM y reduzca costos usando LLMs."
 date: 2026-03-05
 category: "tutorial"
 lang: "es"
 image: "/img/blog/ai_automation.webp"
+seoTitle: "Cómo Integrar Agentes de IA en Webflow con Make.com y OpenAI/Gemini"
+seoDescription: "Tutorial paso a paso para crear asistentes de IA (Agentes) usando Webflow y Webhooks, aumentando conversiones y reduciendo el costo operativo hasta un 50%."
 ---
 
 La automatización ha pasado de ser un lujo a una norma operativa en 2026. Si el sitio de tu empresa simplemente recoge datos a través de formularios muertos, estás dejando ir clientes potenciales urgentes.

@@ -5,33 +5,63 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { t, locales, type Locale } from '../../../i18n/index';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
+  const allPosts = await getCollection('blog');
   
-  return locales.flatMap((lang) => 
-    posts.map((post) => ({
-      params: { lang, slug: post.slug },
-      props: { post },
-    }))
-  );
+  return allPosts.map((post) => {
+    // Slugs are formatted as 'es/post-name', 'en/post-name' based on folder
+    const [pageLang, ...slugParts] = post.slug.split('/');
+    const actualSlug = slugParts.join('/');
+    
+    return {
+      params: { lang: pageLang, slug: actualSlug },
+      props: { post, allPosts, actualSlug },
+    };
+  });
 }
 
 const { lang } = Astro.params;
 const locale = lang as Locale;
-const { post } = Astro.props;
+const { post, allPosts, actualSlug } = Astro.props;
 const { Content, headings } = await post.render();
 
 // Build TOC from headings (h2 and h3)
 const toc = headings.filter(h => h.depth === 2 || h.depth === 3);
 
 // Fetch related posts (same category, newest first, exclude current, max 3)
-const rawPosts = await getCollection('blog');
-const relatedPosts = rawPosts
-  .filter(p => p.data.category === post.data.category && p.slug !== post.slug)
+const relatedPosts = allPosts
+  .filter(p => p.slug.startsWith(`${locale}/`) && p.data.category === post.data.category && p.slug !== post.slug)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 3);
+
+// Formulate dynamic SEO parameters.
+// Find all localized versions of the current post matching the translationKey
+const translationFamily = allPosts.filter(p => p.data.translationKey === post.data.translationKey);
+
+// Map alternates across languages based on exactly what slugs exist in the content
+const alternates: Record<string, string> = {};
+translationFamily.forEach((familyPost) => {
+  const [familyLang, ...familySlugParts] = familyPost.slug.split('/');
+  const familySlug = familySlugParts.join('/');
+  alternates[familyLang] = new URL(`/${familyLang}/blog/${familySlug}/`, Astro.site).href;
+});
+
+// Calculate logical canonical URL
+const seoCanonicalUrl = post.data.canonical ? new URL(post.data.canonical) : new URL(`/${locale}/blog/${actualSlug}/`, Astro.site);
 ---
 
-<BaseLayout locale={locale} pageKey="blog" currentPath={`/${locale}/blog/${post.slug}/`}>
+<BaseLayout 
+  locale={locale} 
+  pageKey="blog" 
+  currentPath={`/${locale}/blog/${actualSlug}/`}
+  seoTitle={post.data.seoTitle || post.data.title}
+  seoDescription={post.data.seoDescription || post.data.description}
+  image={post.data.image}
+  canonicalUrl={seoCanonicalUrl}
+  noindex={post.data.noindex}
+  alternates={alternates}
+  isBlogPost={true}
+  publishDate={post.data.date}
+>
   <!-- Hero Section — Split Layout -->
   <section class="blog-hero-section">
     <div class="container-custom">
@@ -171,7 +201,7 @@ const relatedPosts = rawPosts
                   </time>
                 </div>
                 <h4 class="blog-card-title">
-                  <a href={`/${locale}/blog/${related.slug}/`} class="blog-card-link">{related.data.title}</a>
+                  <a href={`/${locale}/blog/${related.slug.split('/').slice(1).join('/')}/`} class="blog-card-link">{related.data.title}</a>
                 </h4>
                 <p class="blog-card-description">{related.data.description}</p>
                 <span class="blog-card-readmore">

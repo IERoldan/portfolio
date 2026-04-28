@@ -12,9 +12,10 @@ import { t, type Locale, locales, localeNames, localeFlags, getLocalizedPath } f
 interface Props {
   locale: Locale;
   currentPath: string;
+  alternates?: Record<string, string>;
 }
 
-const { locale, currentPath } = Astro.props;
+const { locale, currentPath, alternates } = Astro.props;
 
 const navLinks = [
   { key: 'nav.services', href: `/${locale}/`, hash: '#services' },
@@ -101,9 +102,14 @@ const navLinks = [
             class="absolute right-0 top-full mt-1 w-40 py-1 bg-(--color-surface) border border-(--color-border) rounded-xl shadow-xl opacity-0 invisible translate-y-1 transition-all duration-200"
             role="menu"
           >
-            {locales.map((lang) => (
+            {locales.map((lang) => {
+              const targetUrl = alternates && alternates[lang] 
+                ? alternates[lang] 
+                : getLocalizedPath(currentPath, lang);
+                
+              return (
               <a
-                href={getLocalizedPath(currentPath, lang)}
+                href={targetUrl}
                 class={`flex items-center gap-2.5 px-3 py-2 text-sm transition-colors duration-150 ${
                   lang === locale
                     ? 'text-(--color-accent-500) bg-(--color-accent-500)/10 font-medium'
@@ -120,7 +126,8 @@ const navLinks = [
                   </svg>
                 )}
               </a>
-            ))}
+              );
+            })}
           </div>
         </div>
 

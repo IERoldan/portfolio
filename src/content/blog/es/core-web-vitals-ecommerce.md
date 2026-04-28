@@ -1,10 +1,13 @@
 ---
 title: "El Impacto de las Core Web Vitals en E-commerce: Caso de Mejora de Tasa de Conversión"
+translationKey: "core-web-vitals-ecommerce"
 description: "Análisis de cómo la optimización técnica (Lighthouse 95+) redujo la tasa de rebote y aumentó las ventas en tiendas de impresión online."
 date: 2026-03-02
 category: "casestudy"
 lang: "es"
 image: "/img/blog/core_web_vitals.webp"
+seoTitle: "Core Web Vitals para E-commerce: Cómo Mejorar Conversiones (CRO) con Velocidad"
+seoDescription: "Descubre cómo optimizar Lighthouse a 95+, mejorar el LCP, TBT y escalar tus ventas de e-commerce mediante estrategias técnicas en arquitectura SSG y Caching."
 ---
 
 En el ecosistema B2B y E-commerce moderno, un diseño bonito ya no es suficiente. En ImprimaFácil descubrimos por las malas el axioma del 2026: **Velocidad de Carga = Ventas**.

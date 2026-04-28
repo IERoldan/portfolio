@@ -21,8 +21,10 @@ const locale = lang as Locale;
 
 // Fetch posts from Content Collections
 const rawPosts = await getCollection('blog');
-// Sort by date descending
-const posts = rawPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+// Filter by current locale and sort by date descending
+const posts = rawPosts
+  .filter(p => p.slug.startsWith(`${locale}/`))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 const categories = ['all', 'casestudy', 'tutorial', 'thoughts'] as const;
 ---
@@ -92,7 +94,7 @@ const categories = ['all', 'casestudy', 'tutorial', 'thoughts'] as const;
               </div>
 
               <h2 class="blog-card-title">
-                <a href={`/${locale}/blog/${post.slug}/`} class="blog-card-link">
+                <a href={`/${locale}/blog/${post.slug.split('/').slice(1).join('/')}/`} class="blog-card-link">
                   {post.data.title}
                 </a>
               </h2>

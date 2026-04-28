@@ -1,0 +1,125 @@
+---
+import { t, locales, type Locale } from '../i18n/index';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  canonicalUrl: URL;
+  locale: Locale;
+  noindex?: boolean;
+  alternates?: Record<string, string>;
+  isBlogPost?: boolean; // If true, we might render article-specific OG tags
+  author?: string;
+  publishDate?: Date;
+}
+
+const {
+  title,
+  description,
+  image = 'https://rolivstudio.com/img/ivan_img.webp',
+  canonicalUrl,
+  locale,
+  noindex = false,
+  alternates = {},
+  isBlogPost = false,
+  author = 'Ivan Elias Roldan',
+  publishDate
+} = Astro.props;
+
+// Default Open Graph Locale Map
+const ogLocaleMap: Record<Locale, string> = {
+  es: 'es_ES',
+  en: 'en_US',
+  pt: 'pt_BR',
+};
+
+// Site configuration overrides
+const siteName = t(locale, 'hero.name');
+const absoluteImage = new URL(image, Astro.site).href;
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- SEO Core -->
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="author" content={author} />
+<meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large"} />
+
+<!-- Canonical URL -->
+<link rel="canonical" href={canonicalUrl.href} />
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="/img/logo_portfolio.svg" />
+
+<!-- Font Preloading -->
+<link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossorigin />
+
+<!-- Alternate Links for i18n -->
+{Object.entries(alternates).map(([lang, url]) => (
+  <link rel="alternate" hreflang={lang} href={url} />
+))}
+{alternates['x-default'] ? null : (
+  <link rel="alternate" hreflang="x-default" href={new URL('/en/', Astro.site).href} />
+)}
+
+<!-- Open Graph -->
+<meta property="og:type" content={isBlogPost ? "article" : "website"} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalUrl.href} />
+<meta property="og:locale" content={ogLocaleMap[locale]} />
+<meta property="og:site_name" content={siteName} />
+
+{locales.filter(l => l !== locale).map(l => (
+  <meta property="og:locale:alternate" content={ogLocaleMap[l]} />
+))}
+
+{isBlogPost && publishDate && (
+  <meta property="article:published_time" content={publishDate.toISOString()} />
+)}
+{isBlogPost && (
+  <meta property="article:author" content={author} />
+)}
+
+<!-- Open Graph Image -->
+<meta property="og:image" content={absoluteImage} />
+<meta property="og:image:alt" content={title} />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={absoluteImage} />
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://Schema.org",
+  "@type": isBlogPost ? "BlogPosting" : "Person",
+  "name": title,
+  "headline": title,
+  "description": description,
+  "url": canonicalUrl.href,
+  "image": absoluteImage,
+  "author": {
+    "@type": "Person",
+    "name": author,
+    "url": "https://rolivstudio.com"
+  },
+  ...(isBlogPost && publishDate ? { "datePublished": publishDate.toISOString() } : {}),
+  ...(!isBlogPost ? {
+    "jobTitle": "Frontend Developer & Webflow Specialist",
+    "sameAs": [
+      "https://github.com/IERoldan",
+      "https://www.linkedin.com/in/ivan-elias-roldan-130b72174/"
+    ],
+    "knowsLanguage": ["es", "en", "pt"],
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Roliv Studio",
+      "url": "https://rolivstudio.com"
+    }
+  } : {})
+})} />
