@@ -17,47 +17,55 @@ const { locale } = Astro.props;
 
 const projects = [
   {
-    titleKey: 'projects.project2.title',
-    descKey: 'projects.project2.description',
-    tags: ['Astro', 'Tailwind', 'E-commerce'],
-    image: '/img/imprimafacil_logo.webp',
-    bgColor: '#a5031f',
-    url: 'https://imprimafacilweb.com',
+    "titleKey": "projects.project6.title",
+    "descKey": "projects.project6.description",
+    "tags": ["Astro", "Tailwind", "AI"],
+    "image": "/img/daickvox_logo.webp",
+    "bgColor": "#04091e",
+    "url": "https://daickvox.com"
   },
   {
-    titleKey: 'projects.project3.title',
-    descKey: 'projects.project3.description',
-    tags: ['Next.js', 'React', 'Landing'],
-    image: '/img/school-logo.svg',
-    bgColor: '#ffc233',
-    url: 'https://lexsite.vercel.app/',
+    "titleKey": "projects.project2.title",
+    "descKey": "projects.project2.description",
+    "tags": ["Astro", "Tailwind", "E-commerce"],
+    "image": "/img/imprimafacil_logo.webp",
+    "bgColor": "#a5031f",
+    "url": "https://imprimafacilweb.com"
   },
   {
-    titleKey: 'projects.project1.title',
-    descKey: 'projects.project1.description',
-    tags: ['Webflow', 'CMS', 'CRM'],
-    image: '/img/Logo-inconcertcx.svg',
-    bgColor: '#ffffff',
-    url: 'https://www.inconcertcx.com/es',
+    "titleKey": "projects.project3.title",
+    "descKey": "projects.project3.description",
+    "tags": ["Next.js", "React", "Landing"],
+    "image": "/img/school-logo.svg",
+    "bgColor": "#ffc233",
+    "url": "https://lexsite.vercel.app/"
   },
   {
-    titleKey: 'projects.project4.title',
-    descKey: 'projects.project4.description',
-    tags: ['React', 'Frontend', 'Booking'],
-    image: null,
-    lottie: '/img/camera.lottie',
-    bgColor: '#fb923c',
-    url: 'https://project-lp-fotografo.vercel.app/',
+    "titleKey": "projects.project1.title",
+    "descKey": "projects.project1.description",
+    "tags": ["Webflow", "CMS", "CRM"],
+    "image": "/img/Logo-inconcertcx.svg",
+    "bgColor": "#ffffff",
+    "url": "https://www.inconcertcx.com/es"
   },
   {
-    titleKey: 'projects.project5.title',
-    descKey: 'projects.project5.description',
-    tags: ['Astro', 'i18n', 'Gemini AI'],
-    image: null,
-    lottie: '/img/Coding.lottie',
-    bgColor: 'transparent',
-    url: '#',
+    "titleKey": "projects.project4.title",
+    "descKey": "projects.project4.description",
+    "tags": ["React", "Frontend", "Booking"],
+    "image": null,
+    "lottie": "/img/camera.lottie",
+    "bgColor": "#fb923c",
+    "url": "https://project-lp-fotografo.vercel.app/"
   },
+  {
+    "titleKey": "projects.project5.title",
+    "descKey": "projects.project5.description",
+    "tags": ["Astro", "i18n", "Gemini AI"],
+    "image": null,
+    "lottie": "/img/Coding.lottie",
+    "bgColor": "transparent",
+    "url": "#"
+  }
 ];
 
 /**
@@ -67,11 +75,12 @@ const projects = [
  * TranslateX pushes cards apart, translateY lifts outer cards slightly
  */
 const fanPositions = [
-  { rotate: -16, tx: -240, ty: 20, z: 1 },
-  { rotate: -8,  tx: -120, ty: 8,  z: 2 },
-  { rotate: 0,   tx: 0,    ty: 0,  z: 3 },
-  { rotate: 8,   tx: 120,  ty: 8,  z: 2 },
-  { rotate: 16,  tx: 240,  ty: 20, z: 1 },
+  { rotate: -20, tx: -300, ty: 30, z: 1 },
+  { rotate: -12, tx: -180, ty: 12, z: 2 },
+  { rotate: -4,  tx: -60,  ty: 2,  z: 3 },
+  { rotate: 4,   tx: 60,   ty: 2,  z: 3 },
+  { rotate: 12,  tx: 180,  ty: 12, z: 2 },
+  { rotate: 20,  tx: 300,  ty: 30, z: 1 },
 ];
 ---
 
