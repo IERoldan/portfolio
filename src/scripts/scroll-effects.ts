@@ -42,6 +42,11 @@ function initScrollEffects(): void {
     if (parallaxElements.length > 0) {
         let ticking = false;
 
+        // Hint Safari that these elements will transform to enable layer backing
+        parallaxElements.forEach((el) => {
+            el.style.willChange = 'transform';
+        });
+
         const updateParallax = () => {
             const scrollY = window.scrollY;
 
@@ -52,7 +57,8 @@ function initScrollEffects(): void {
                 const viewportCenter = window.innerHeight / 2;
                 const offset = (centerY - viewportCenter) * speed;
 
-                el.style.transform = `translateY(${offset}px)`;
+                // Force GPU layer composition with translate3d
+                el.style.transform = `translate3d(0, ${offset}px, 0)`;
             });
 
             ticking = false;

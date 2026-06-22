@@ -29,7 +29,7 @@ function initTypewriter(): void {
 
         // Cursor
         const cursor = document.createElement('span');
-        cursor.className = 'typewriter-cursor';
+        cursor.className = 'typewriter-cursor blinking'; // Start as blinking during initial delay
         cursor.setAttribute('aria-hidden', 'true');
         el.appendChild(cursor);
 
@@ -48,30 +48,38 @@ function initTypewriter(): void {
 
         const type = () => {
             const currentString = strings[stringIndex];
+            let isTransition = false;
+            let typeSpeed = speed;
 
             if (isDeleting) {
                 charIndex--;
+                if (charIndex === 0) {
+                    isTransition = true;
+                    isDeleting = false;
+                    stringIndex = (stringIndex + 1) % strings.length;
+                    typeSpeed = 500; // Pausa corta antes de empezar a escribir la siguiente palabra
+                } else {
+                    typeSpeed /= 2; // Borrar más rápido
+                }
             } else {
                 charIndex++;
+                if (charIndex === currentString.length) {
+                    if (strings.length > 1) {
+                        isTransition = true;
+                        typeSpeed = 3000; // Esperar 3 segundos antes de empezar a borrar
+                        isDeleting = true;
+                    }
+                }
             }
 
             textSpan.textContent = currentString.substring(0, charIndex);
 
-            let typeSpeed = speed;
-
-            if (isDeleting) {
-                typeSpeed /= 2; // Borrar más rápido
-            }
-
-            if (!isDeleting && charIndex === currentString.length) {
-                if (strings.length > 1) {
-                    typeSpeed = 3000; // Esperar 3 segundos antes de borrar
-                    isDeleting = true;
-                }
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                stringIndex = (stringIndex + 1) % strings.length;
-                typeSpeed = 500; // Pausa antes de escribir la siguiente palabra
+            // Safari performance optimization: toggle blinking only when paused/idle
+            // to avoid rendering and layout thrashing during active DOM updates
+            if (isTransition) {
+                cursor.classList.add('blinking');
+            } else {
+                cursor.classList.remove('blinking');
             }
 
             setTimeout(type, typeSpeed);
@@ -82,12 +90,16 @@ function initTypewriter(): void {
             (entries) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
-                        setTimeout(type, 500); // Pequeño delay antes de empezar
+                        // Delay initial typing start, keep blinking during delay
+                        setTimeout(() => {
+                            cursor.classList.remove('blinking');
+                            type();
+                        }, 500);
                         observer.disconnect();
                     }
                 });
             },
-            { threshold: 0.5 }
+            { threshold: 0.2 } // Lower threshold for responsive activation on mobile viewports
         );
 
         observer.observe(el);

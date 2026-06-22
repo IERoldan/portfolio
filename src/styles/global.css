@@ -119,6 +119,7 @@ body {
 .reveal {
   opacity: 0;
   transform: translateY(30px);
+  will-change: opacity, transform;
   transition: opacity 0.8s var(--ease-out-expo),
     transform 0.8s var(--ease-out-expo);
 }
@@ -131,6 +132,7 @@ body {
 .reveal-left {
   opacity: 0;
   transform: translateX(-40px);
+  will-change: opacity, transform;
   transition: opacity 0.8s var(--ease-out-expo),
     transform 0.8s var(--ease-out-expo);
 }
@@ -143,6 +145,7 @@ body {
 .reveal-right {
   opacity: 0;
   transform: translateX(40px);
+  will-change: opacity, transform;
   transition: opacity 0.8s var(--ease-out-expo),
     transform 0.8s var(--ease-out-expo);
 }
@@ -184,8 +187,13 @@ body {
   height: 1em;
   background-color: var(--color-accent-500);
   margin-left: 2px;
-  animation: blink 1s step-end infinite;
   vertical-align: text-bottom;
+  opacity: 1;
+  will-change: opacity;
+}
+
+.typewriter-cursor.blinking {
+  animation: blink 1s step-end infinite;
 }
 
 @keyframes blink {
