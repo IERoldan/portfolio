@@ -41,20 +41,29 @@ function initScrollEffects(): void {
 
     if (parallaxElements.length > 0) {
         let ticking = false;
+        let parallaxItems: Array<{ el: HTMLElement; topFromDoc: number; height: number; speed: number }> = [];
 
         // Hint Safari that these elements will transform to enable layer backing
         parallaxElements.forEach((el) => {
             el.style.willChange = 'transform';
         });
 
+        const measure = () => {
+            const scrollY = window.scrollY;
+            parallaxItems = Array.from(parallaxElements).map((el) => {
+                const rect = el.getBoundingClientRect();
+                const topFromDoc = rect.top + scrollY;
+                const speed = parseFloat(el.getAttribute('data-parallax') || '0.3');
+                return { el, topFromDoc, height: rect.height, speed };
+            });
+        };
+
         const updateParallax = () => {
             const scrollY = window.scrollY;
+            const viewportCenter = scrollY + window.innerHeight / 2;
 
-            parallaxElements.forEach((el) => {
-                const speed = parseFloat(el.getAttribute('data-parallax') || '0.3');
-                const rect = el.getBoundingClientRect();
-                const centerY = rect.top + rect.height / 2;
-                const viewportCenter = window.innerHeight / 2;
+            parallaxItems.forEach(({ el, topFromDoc, height, speed }) => {
+                const centerY = topFromDoc + height / 2;
                 const offset = (centerY - viewportCenter) * speed;
 
                 // Force GPU layer composition with translate3d
@@ -64,15 +73,29 @@ function initScrollEffects(): void {
             ticking = false;
         };
 
-        window.addEventListener('scroll', () => {
+        const onScroll = () => {
             if (!ticking) {
                 requestAnimationFrame(updateParallax);
                 ticking = true;
             }
-        }, { passive: true });
+        };
 
-        // Calcular posición inicial
+        // Measure layout geometries
+        measure();
+        // Compute initial positioning
         updateParallax();
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+
+        // Re-measure on window resize to ensure correctness if viewport or layout changes
+        let resizeTimeout: number;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = window.setTimeout(() => {
+                measure();
+                updateParallax();
+            }, 150);
+        }, { passive: true });
     }
 }
 

@@ -24,7 +24,7 @@ const { locale = 'es' } = Astro.props;
           <button id="btn-cookie-settings" class="px-5 py-2.5 text-sm text-white/80 border border-white/25 rounded-full hover:bg-white/10 transition-all cursor-pointer">
             Configurar
           </button>
-          <button id="btn-cookie-accept-all" class="px-7 py-2.5 text-sm text-white font-semibold bg-(--color-accent-500) rounded-full hover:bg-(--color-accent-600) shadow-lg shadow-(--color-accent-500)/30 transition-all cursor-pointer">
+          <button id="btn-cookie-accept-all" class="px-7 py-2.5 text-sm text-white font-semibold bg-(--color-accent-600) dark:bg-(--color-accent-500) rounded-full hover:bg-(--color-accent-700) shadow-lg shadow-(--color-accent-600)/30 transition-all cursor-pointer">
             Aceptar todas
           </button>
         </div>
@@ -67,7 +67,7 @@ const { locale = 'es' } = Astro.props;
             <p class="text-[13px] font-semibold text-(--color-text-primary) m-0">Analíticas</p>
             <p class="text-[11px] text-(--color-text-secondary) leading-tight mt-0.5 mb-0">Ayudan a entender cómo usás el sitio para mejorarlo (Google Analytics).</p>
           </div>
-          <button id="toggle-analytics" class="cookie-toggle w-10 h-6 shrink-0 bg-gray-300 dark:bg-gray-700 rounded-full relative transition-colors cursor-pointer" aria-pressed="false">
+          <button id="toggle-analytics" class="cookie-toggle w-10 h-6 shrink-0 bg-gray-300 dark:bg-gray-700 rounded-full relative transition-colors cursor-pointer" aria-pressed="false" aria-label="Permitir cookies analíticas">
             <div class="toggle-dot absolute w-4 h-4 bg-white rounded-full top-1 left-1 transition-all shadow-sm pointer-events-none"></div>
           </button>
         </div>
@@ -79,7 +79,7 @@ const { locale = 'es' } = Astro.props;
             <p class="text-[13px] font-semibold text-(--color-text-primary) m-0">Marketing</p>
             <p class="text-[11px] text-(--color-text-secondary) leading-tight mt-0.5 mb-0">Permiten mostrarte anuncios relevantes (Facebook Pixel).</p>
           </div>
-          <button id="toggle-marketing" class="cookie-toggle w-10 h-6 shrink-0 bg-gray-300 dark:bg-gray-700 rounded-full relative transition-colors cursor-pointer" aria-pressed="false">
+          <button id="toggle-marketing" class="cookie-toggle w-10 h-6 shrink-0 bg-gray-300 dark:bg-gray-700 rounded-full relative transition-colors cursor-pointer" aria-pressed="false" aria-label="Permitir cookies de marketing">
             <div class="toggle-dot absolute w-4 h-4 bg-white rounded-full top-1 left-1 transition-all shadow-sm pointer-events-none"></div>
           </button>
         </div>
