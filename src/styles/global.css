@@ -248,6 +248,12 @@ body {
   background-clip: text;
 }
 
+/* ─── Mask image utility to fade out elements at the bottom ──────── */
+.mask-img {
+  -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+}
+
 /* ─── Scrollbar styling ──────────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 8px;
