@@ -33,7 +33,7 @@ const { locale } = Astro.props;
         </div>
 
         <!-- Main title with typewriter -->
-        <h1 class="reveal reveal-delay-1 text-4xl sm:text-4xl lg:text-5xl xl:text-[3.75rem] font-bold leading-tight tracking-tight mb-6 line-clamp-2 w-full text-center lg:text-left">
+        <h1 class="reveal reveal-delay-1 text-4xl sm:text-4xl lg:text-5xl xl:text-[3.75rem] font-bold leading-tight tracking-tight mb-6 line-clamp-2 w-full text-center lg:text-left min-h-[2.4em]">
           <span
             data-typewriter={JSON.stringify([
               t(locale, 'hero.title.1'),
@@ -42,7 +42,7 @@ const { locale } = Astro.props;
               t(locale, 'hero.title.4')
             ])}
             data-typewriter-speed="60"
-            class="gradient-text"
+            class="text-(--color-accent-500)"
           >
             {t(locale, 'hero.title.1')}
           </span>

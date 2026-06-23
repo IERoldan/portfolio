@@ -150,6 +150,16 @@ const jobs = [
   // Get accent color once
   var accentColor = getComputedStyle(document.documentElement).getPropertyValue('--color-accent-500').trim();
 
+  // Cached layout metrics to avoid layout thrashing
+  var wrapperTop = 0;
+  var wrapperHeight = 0;
+
+  function measureMobile() {
+    var rect = wrapper.getBoundingClientRect();
+    wrapperTop = rect.top + window.scrollY;
+    wrapperHeight = rect.height;
+  }
+
   // Initialize SVG paths for each card
   function initSVGs() {
     cardWraps.forEach(function(wrap) {
@@ -212,13 +222,17 @@ const jobs = [
   }
 
   function update() {
-    var wrapRect = wrapper.getBoundingClientRect();
     var viewH = window.innerHeight;
 
     var startY = viewH * 0.75;
     var endY = viewH * 0.3;
-    var scrolled = startY - wrapRect.top;
-    var animRange = (wrapRect.height - endY) + startY;
+    var scrolled = startY - (wrapperTop - window.scrollY);
+    var animRange = (wrapperHeight - endYScrolledOffset()) + startY;
+    
+    function endYScrolledOffset() {
+      return endY;
+    }
+    
     var totalProgress = Math.max(0, Math.min(1, scrolled / animRange));
 
     for (var seg = 0; seg < totalSegments; seg++) {
@@ -267,6 +281,7 @@ const jobs = [
   // Init after layout is ready
   requestAnimationFrame(function() {
     initSVGs();
+    measureMobile();
     update();
   });
 
@@ -279,8 +294,9 @@ const jobs = [
       wrap._lPath = null;
     });
     initSVGs();
+    measureMobile();
     update();
-  });
+  }, { passive: true });
 })();
 
 // ═══ Desktop Horizontal Timeline ═══
@@ -298,6 +314,11 @@ const jobs = [
 
   var totalCards = dots.length;
   var cardWidth = 400;
+
+  // Cached layout metrics to avoid layout thrashing
+  var dotsPositions = [];
+  var containerTop = 0;
+  var containerHeight = 0;
 
   function initLayout() {
     cardWidth = window.innerWidth < 768 ? 320 : 400;
@@ -325,20 +346,31 @@ const jobs = [
     var maxTranslate = Math.max(0, totalTrackWidth - (viewportWidth - endMargin));
     container.dataset.maxTranslate = maxTranslate;
     container.style.height = (maxTranslate + window.innerHeight) + 'px';
+
+    // Measure once and cache
+    var containerRect = container.getBoundingClientRect();
+    containerTop = containerRect.top + window.scrollY;
+    containerHeight = container.offsetHeight;
+
+    dotsPositions = Array.from(dots).map(function(dot, i) {
+      return startOffset + (i * cardSpacing) + cardWidth / 2;
+    });
   }
 
   function updateTimeline() {
-    var rect = container.getBoundingClientRect();
-    var sectionTop = -rect.top;
-    var sectionHeight = container.offsetHeight - window.innerHeight;
+    var sectionTop = window.scrollY - containerTop;
+    var sectionHeight = containerHeight - window.innerHeight;
     var progress = Math.max(0, Math.min(1, sectionTop / sectionHeight));
     var maxTranslate = parseFloat(container.dataset.maxTranslate || 0);
     track.style.transform = 'translate3d(' + (-progress * maxTranslate) + 'px, 0, 0)';
 
     var triggerPoint = window.innerWidth * 0.55;
+    var trackTranslation = progress * maxTranslate;
+
     for (var i = 0; i < dots.length; i++) {
-      var dotRect = dots[i].getBoundingClientRect();
-      if (dotRect.left <= triggerPoint || (i === dots.length - 1 && progress > 0.99)) {
+      var dotLeftViewport = dotsPositions[i] - trackTranslation;
+
+      if (dotLeftViewport <= triggerPoint || (i === dots.length - 1 && progress > 0.99)) {
         dots[i].style.backgroundColor = 'var(--color-accent-500)';
         dots[i].style.borderColor = 'var(--color-accent-500)';
         dots[i].style.boxShadow = '0 0 12px var(--color-accent-500)';
@@ -357,7 +389,7 @@ const jobs = [
   window.addEventListener('resize', function() {
     initLayout();
     updateTimeline();
-  });
+  }, { passive: true });
 
   initLayout();
 
